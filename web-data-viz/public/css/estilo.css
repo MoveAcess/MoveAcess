@@ -28,6 +28,70 @@ p{
   --glass-border: rgba(255, 255, 255, 0.3);
 }
 
+/* NAVBAR */
+.navbar{
+  background-color: var(--color-bg);
+  width: 100%;
+  height: 11vh;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.nav-logo{
+  background-color: #0B4C8E;
+  height: 100%;
+  width: 15%;
+  background-image: url(../assets/imgs/Logo.jpg), center, no-repeat, cover;
+}
+
+.nav-title{
+  width: 70%;
+  height: 100%;
+  justify-self: end;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 1.3rem;
+}
+
+.nav-title a:hover{
+  color: #0a4480;
+}
+
+.nav-title a:focus{
+  font-weight: bolder;
+  color: #093d72;
+  text-decoration: underline var(--color-button);
+}
+
+.nav-title a{
+  float: left;
+  text-align: center;
+  text-decoration: none;
+  color: #111111;
+  cursor: pointer;
+}
+
+.nav-cadastro a{
+  color: var(--color-bg);
+  background-color: var(--color-button);
+  cursor: pointer;
+  font-weight: bolder;
+  padding: 0.50rem;
+  border-radius: 3.0rem;
+}
+
+.nav-cadastro:hover{
+  background-color: var(--color-button-hover);
+  border-radius: 50px;
+}
+.nav-cadastro a:focus{
+  color: white;
+}
+
 
 /* BANNER */
 
