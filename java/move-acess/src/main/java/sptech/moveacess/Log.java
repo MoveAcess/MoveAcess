@@ -11,7 +11,7 @@ public class Log {
         int status, delay;
 
         now = LocalDateTime.now();
-        System.out.printf("Iniciando processo... [%s]%n", now.format(dateFormat));
+        System.out.printf("[%s] Iniciando processo...%n", now.format(dateFormat));
 
         for (String process : processes) {
             try {
@@ -21,18 +21,18 @@ public class Log {
                 Thread.sleep(delay);
 
                 now = LocalDateTime.now();
-                System.out.printf("Processo '%s' concluído. Status: %d. [%s]%n",
-                        process, status, now.format(dateFormat));
+                System.out.printf("[%s] Processo '%s' concluído. Status: %d.%n",
+                        now.format(dateFormat), process, status);
 
             } catch (InterruptedException e) {
                 now = LocalDateTime.now();
-                System.err.printf("Ocorreu uma falha no procedimento '%s'. [%s] Erro: %s%n",
-                        process, now.format(dateFormat), e.getMessage());
+                System.err.printf("[%s] Ocorreu uma falha no procedimento '%s'. Erro: %s%n",
+                        now.format(dateFormat), process, e.getMessage());
                 Thread.currentThread().interrupt();
             }
         }
 
         now = LocalDateTime.now();
-        System.out.printf("Operação finalizada! [%s]%n", now.format(dateFormat));
+        System.out.printf("[%s] Operação finalizada!%n", now.format(dateFormat));
     }
 }
