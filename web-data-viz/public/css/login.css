@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+p {
+  font-size: 1.5rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+:root {
+  --color-bg: #ffffff;
+  --color-text: #111111;
+  --color-text-light: #222222;
+  --color-secondary: #0B4C8E;
+  --color-button: #5FA3D4;
+  --color-button-hover: #5693bf;
+
+  --glass-bg: rgba(255, 255, 255, 0.2);
+  --glass-border: rgba(255, 255, 255, 0.3);
+}
+
+
+.navbar {
+  background-color: var(--color-bg);
+  width: 100%;
+  height: 11vh;
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2.5vw;
+  z-index: 1000;
+}
+
+.nav-logo {
+  width: auto;
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo img {
+  height: 50px;
+  width: auto;
+  display: block;
+}
+
+.nav-title {
+  flex-grow: 1;
+  height: 100%;
+  justify-self: end;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 1.3rem;
+  margin-left: 2rem;
+}
+
+.nav-title a:hover {
+  color: #0a4480;
+}
+
+.nav-title a:focus {
+  font-weight: bolder;
+  color: #093d72;
+  text-decoration: underline var(--color-button);
+}
+
+.nav-title a {
+  float: left;
+  text-align: center;
+  text-decoration: none;
+  color: #111111;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-cadastro a {
+  color: var(--color-bg);
+  background-color: var(--color-button);
+  cursor: pointer;
+  font-weight: bolder;
+  padding: 0.50rem 1.25rem;
+  border-radius: 3.0rem;
+  box-sizing: border-box;
+}
+
+.nav-cadastro:hover {
+  background-color: var(--color-button-hover);
+  border-radius: 50px;
+}
+
+.nav-cadastro a:focus {
+  color: white;
+}
+
+.container_pai {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background-image: url("../assets/imgs/backgroundCadastroLogin.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+
+  align-items: center;
+  padding-top: 11vh;
+}
+
+.container_filho {
+  background-color: #ffffffcf;
+  padding: 30px;
+  margin-left: 150px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px #0000001a;
+  width: 90%;
+  height: auto;
+  max-width: 400px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.container_filho img {
+  width: 30%;
+  max-width: 180px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.container_filho h2 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 0px;
+  font-weight: bold;
+}
+
+.container_filho form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 15px;
+}
+
+.container_filho label {
+  font-weight: 600;
+  color: #555;
+  font-size: 15px;
+}
+
+.container_filho input[type="email"],
+.container_filho input[type="password"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.container_filho input[type="email"]:focus,
+.container_filho input[type="password"]:focus {
+  border-color: #007bff;
+}
+
+.container_filho button {
+  background: linear-gradient(to left, var(--color-button), #007bff);
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 25px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.container_filho button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px var(--color-button-hover);
+}
+
+.container_filho p {
+  margin-top: 30px;
+  font-size: 18px;
+  color: #666;
+}
+
+.container_filho p a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.container_filho p a:hover {
+  text-decoration: underline;
+}
