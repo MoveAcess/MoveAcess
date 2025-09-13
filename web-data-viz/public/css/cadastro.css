@@ -1,0 +1,187 @@
+/* ========================================= */
+/* Reset Básico e Variáveis de Cor           */
+/* ========================================= */
+:root {
+    --color-bg: #ffffff;
+    --color-text: #111111;
+    --color-text-light: #555555;
+    --color-secondary: #0B4C8E;
+    --color-button: #5da9e9;
+    --color-button-hover: #4a91d1;
+    --border-color: #dcdcdc;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ========================================= */
+/* Layout Robusto com Flexbox                */
+/* ========================================= */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Inter', system-ui, sans-serif;
+    color: var(--color-text);
+}
+
+/* ========================================= */
+/* Estilos do Header (Navbar)                */
+/* ========================================= */
+.navbar {
+    background-color: var(--color-bg);
+    width: 100%;
+    height: 11vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.nav-logo img {
+    height: 50px;
+    width: auto;
+    display: block;
+}
+
+.nav-title {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-title a {
+    text-decoration: none;
+    color: var(--color-text);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;
+}
+
+.nav-title a:hover {
+    color: var(--color-secondary);
+}
+
+.nav-title > div:not(.nav-cadastro) {
+    color: #ccc;
+}
+
+.nav-cadastro a {
+    color: white;
+    background-color: var(--color-button);
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.nav-cadastro a:hover {
+    background-color: var(--color-button-hover);
+}
+
+/* ========================================= */
+/* Área Principal (Cadastro)                 */
+/* ========================================= */
+.conteudo-principal {
+    flex-grow: 1;
+    margin-top: 12vh;
+    height: 50vh;
+    background-image: url('../assets/imgs/backgroundCadastroLogin.svg');
+    background-size: contain;
+    background-color: #EAF6FF;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    padding: 2rem;
+    justify-content: flex-start;  /* antes estava center */
+    align-items: center;
+    padding-left: 8%;             /* empurra para a esquerda */
+}
+
+.cadastro-container {
+    background-color: var(--color-bg);
+    padding: 1.5rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 300px;   /* largura fixa igual ao Figma */
+    text-align: center;
+}
+
+.form-logo {
+    max-width: 120px;
+    margin-bottom: 0.5rem;
+}
+
+.form-titulo {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 1.2rem;
+}
+
+.cadastro-container form {
+    text-align: left;
+}
+
+.cadastro-container label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-text-light);
+    margin-bottom: 0.3rem;
+    margin-top: 0.8rem;
+}
+
+.cadastro-container input {
+    width: 100%;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+.cadastro-container input:focus {
+    outline: none;
+    border-color: var(--color-button);
+    box-shadow: 0 0 0 3px rgba(93, 169, 233, 0.2);
+}
+
+.btn-cadastrar {
+    width: 100%;
+    padding: 0.6rem;
+    background-color: var(--color-button);
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-cadastrar:hover {
+    background-color: var(--color-button-hover);
+}
+
+.texto-login {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+}
+
+.texto-login a {
+    color: var(--color-button);
+    text-decoration: none;
+    font-weight: 600;
+}

@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #0B4C8E;
+    --text-color: #333;
+    --text-color-light: #666;
+    --border-color: #e5e7eb;
+    --background-color: #f9fafb;
+    --white-color: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --- Barra Lateral --- */
+.sidebar {
+    flex-shrink: 0;
+    /* Impede que a sidebar encolha */
+    width: 260px;
+    background-color: var(--white-color);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+
+.sidebar-header .logo {
+    max-width: 150px;
+    margin-bottom: 2.5rem;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-color-light);
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar-nav a:hover {
+    background-color: #f3f4f6;
+    color: var(--text-color);
+}
+
+.sidebar-nav a.active {
+    background-color: #eef2ff;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    /* Empurra o item "Sair" para o final */
+}
+
+.sidebar-footer a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.8rem 1rem;
+    text-decoration: none;
+    color: var(--text-color-light);
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.sidebar-footer a:hover {
+    background-color: #f3f4f6;
+}
+
+/* --- Conteúdo Principal --- */
+.main-content {
+    flex-grow: 1;
+    padding: 2.5rem 3.5rem;
+}
+
+.main-content h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.search-container {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.search-container i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-color-light);
+    font-size: 1.25rem;
+}
+
+.search-container input {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.8rem 1rem 0.8rem 3rem;
+    /* Espaço para o ícone */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.search-container input:focus {
+    outline: 2px solid var(--primary-color);
+    border-color: transparent;
+}
+
+.route-display {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.map-container {
+    flex-basis: 65%;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    height: 400px;
+}
+
+.map-container img {
+    width: 100%;
+    display: block;
+    height: 100%;
+}
+
+.route-details-card {
+    flex-grow: 1;
+    background-color: var(--white-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.route-details-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Remove a borda do primeiro item */
+.info-item:first-of-type {
+    border-top: none;
+    padding-top: 0;
+}

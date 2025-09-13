@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Dashboard - MoveAcess</title>
+
+    <link rel="stylesheet" href="../css/mapa.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="../assets/imgs/logo.svg" alt="Logo MoveAcess" class="logo">
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active"><i class="ph-fill ph-house"></i> Dashboard</a></li>
+                    <li><a href="#"><i class="ph-fill ph-file-text"></i> Lorem ipsum</a></li>
+                    <li><a href="#"><i class="ph-fill ph-map-trifold"></i> Rotas</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#"><i class="ph-fill ph-sign-out"></i> Sair</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Rota recomendada</h1>
+            </header>
+
+            <div class="search-container">
+                <i class="ph ph-magnifying-glass"></i>
+                <input type="text" placeholder="Pesquisar rota">
+            </div>
+
+            <section class="route-display">
+                <div class="map-container">
+                    <img src="../assets/imgs/mapa.png" alt="Mapa mostrando uma rota do ponto A ao ponto B">
+                </div>
+
+                <div class="route-details-card">
+                    <h3>Melhor rota</h3>
+                    <div class="info-item">
+                        <span class="value">Rua X - Rua Y</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Duração</span>
+                        <span class="value">6 min</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Distância</span>
+                        <span class="value">500 m</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>
