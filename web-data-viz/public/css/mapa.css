@@ -220,3 +220,167 @@ body {
     border-top: none;
     padding-top: 0;
 }
+
+@media (max-width: 992px) {
+  button.nav-toggle {
+    display: flex !important;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+  
+  .nav-title {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 300px;
+    background: var(--color-bg);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    z-index: 9;
+  }
+  
+  .nav-title.active {
+    transform: translateX(0);
+  }
+  
+  .navbar {
+    padding: 0 1.5rem;
+  }
+  
+  .what-we-do, .about, .cards {
+    padding: 4rem 2rem;
+  }
+  
+  .what-we-do {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+  
+  .what-we-do div {
+    text-align: center;
+  }
+  
+  .about {
+    flex-direction: column;
+  }
+  
+  .container-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .card {
+    width: 100%;
+    max-width: 416px;
+  }
+  
+  .footer {
+    height: auto;
+    padding: 2rem 1rem;
+  }
+  
+  .footer-conteudo {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .footer-logo {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .banner-content {
+    margin: 0 auto;
+    border-radius: 24px;
+    text-align: center;
+    max-width: 90%;
+  }
+  
+  .banner-content h1 {
+    font-size: 1.8rem;
+  }
+  
+  .container {
+    width: 100%;
+    height: 300px;
+  }
+  
+  .container img {
+    width: 200px;
+  }
+  
+  .footer {
+    height: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar {
+    padding: 0 1rem;
+  }
+  
+  .banner-content {
+    padding: 1.5rem;
+  }
+  
+  .banner-content h1 {
+    font-size: 1.5rem;
+  }
+  
+  .what-we-do, .about, .cards {
+    padding: 3rem 1rem;
+  }
+  
+  .about-text {
+    max-width: 100%;
+  }
+  
+  .container {
+    height: 250px;
+  }
+  
+  .container img {
+    width: 160px;
+  }
+  
+  .card {
+    padding: 1.5rem 1rem;
+  }
+  
+  h2 {
+    font-size: 2rem;
+  }
+  
+  p {
+    font-size: 1.2rem;
+  }
+}
+
+button.nav-toggle {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.nav-toggle:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.hamburger-line {
+  background: #111111 !important;
+}

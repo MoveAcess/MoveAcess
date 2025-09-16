@@ -15,33 +15,33 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
 </head>
 
+<header class="header">
+  <nav class="navbar">
+    <div class="nav-logo">
+      <img src="./assets/imgs/logo.svg" alt="Logo" />
+    </div>
+
+    <button class="nav-toggle" aria-label="abrir menu">
+      <div class="hamburger-line"></div>
+      <div class="hamburger-line"></div>
+      <div class="hamburger-line"></div>
+    </button>
+
+    <div class="nav-title">
+      <a href="#banner">Home</a>
+      <a href="#what-we-do">Sobre</a>
+      <a href="#about">Solução</a>
+      <a href="#footer">Contate-nos</a>
+      <div>|</div>
+      <a href="login.html">Entrar</a>
+      <div class="nav-cadastro">
+        <a href="cadastro.html">Cadastrar</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
 <body>
-  <div class="header">
-    <nav class="navbar">
-      <div class="nav-logo">
-        <img src="./assets/imgs/logo.svg" alt="Logo" />
-      </div>
-
-      <button class="nav-toggle" aria-label="abrir menu">
-        <div class="hamburger-line"></div>
-        <div class="hamburger-line"></div>
-        <div class="hamburger-line"></div>
-      </button>
-
-      <div class="nav-title">
-        <a href="#banner">Home</a>
-        <a href="#what-we-do">Sobre</a>
-        <a href="#about">Solução</a>
-        <a href="#footer">Contate-nos</a>
-        <div>|</div>
-        <a href="login.html">Entrar</a>
-        <div class="nav-cadastro">
-          <a href="cadastro.html">Cadastrar</a>
-        </div>
-      </div>
-    </nav>
-  </div>
-
   <section class="banner" id="banner">
     <div class="banner-content">
       <h1>Acessibilidade que <span>move</span> vidas</h1>
@@ -133,74 +133,74 @@
     </div>
   </section>
 
-  <footer class="footer" id="footer">
-    <div class="footer-conteudo">
-
-      <div class="footer-coluna">
-        <div class="footer-logo">
-          <img src="./assets/imgs/Logo_branco.svg" alt="Logo" />
-        </div>
-
-        Nossa visão é garantir acessibilidade <br> e promover a inclusão no transporte <br> público terrestre.
-
-      </div>
-
-      <div class="footer-coluna">
-        <h1>Menu</h1>
-        <ul>
-          <li><a href="#banner">Home</a></li>
-          <li><a href="###">Sobre</a></li>
-          <li><a href="###">Soluções</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-coluna">
-        <h1>Fale conosco</h1>
-        <ul>
-          <li>
-            <address>Rua Haddock Lobo, 595 - Cerqueira César <br>
-              São Paulo - SP, 01414-001</address>
-          </li>
-          <li><a href="mailto:contato@moveacess.com">contato@moveacess.com</a></li>
-          <li><a href="http://github.com/moveacess">github.com/moveacess</a></li>
-        </ul>
-      </div>
-
-    </div>
-
-    <div class="footer-rodape">
-      <h5>© 2025 Move Acess. Todos os direitos reservados.</h5>
-    </div>
-  </footer>
-
-  <script>
-    // menu hamburguer
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-title');
-
-    if (navToggle && navMenu) {
-      navToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        navMenu.classList.toggle('active');
-      });
-
-      document.querySelectorAll('.nav-title a').forEach(link => {
-        link.addEventListener('click', () => {
-          navMenu.classList.remove('active');
-        });
-      });
-
-      document.addEventListener('click', (e) => {
-        if (!navMenu.contains(e.target) && !navToggle.contains(e.target) && navMenu.classList.contains('active')) {
-          navMenu.classList.remove('active');
-        }
-      });
-
-      console.log('Nav toggle:', navToggle);
-      console.log('Nav menu:', navMenu);
-    }
-  </script>
-
 </body>
+
+<footer class="footer" id="footer">
+  <div class="footer-conteudo">
+
+    <div class="footer-coluna">
+      <div class="footer-logo">
+        <img src="./assets/imgs/Logo_branco.svg" alt="Logo" />
+      </div>
+
+      Nossa visão é garantir acessibilidade <br> e promover a inclusão no transporte <br> público terrestre.
+
+    </div>
+
+    <div class="footer-coluna">
+      <h1>Menu</h1>
+      <ul>
+        <li><a href="#banner">Home</a></li>
+        <li><a href="###">Sobre</a></li>
+        <li><a href="###">Soluções</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-coluna">
+      <h1>Fale conosco</h1>
+      <ul>
+        <li>
+          <address>Rua Haddock Lobo, 595 - Cerqueira César <br>
+            São Paulo - SP, 01414-001</address>
+        </li>
+        <li><a href="mailto:contato@moveacess.com">contato@moveacess.com</a></li>
+        <li><a href="http://github.com/moveacess">github.com/moveacess</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-rodape">
+    <h5>© 2025 Move Acess. Todos os direitos reservados.</h5>
+  </div>
+</footer>
+
+<script>
+  // menu hamburguer
+  const navToggle = document.querySelector('.nav-toggle');
+  const navMenu = document.querySelector('.nav-title');
+
+  if (navToggle && navMenu) {
+    navToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navMenu.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.nav-title a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!navMenu.contains(e.target) && !navToggle.contains(e.target) && navMenu.classList.contains('active')) {
+        navMenu.classList.remove('active');
+      }
+    });
+
+    console.log('Nav toggle:', navToggle);
+    console.log('Nav menu:', navMenu);
+  }
+</script>
 
 </html>
