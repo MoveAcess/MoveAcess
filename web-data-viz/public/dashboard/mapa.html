@@ -80,31 +80,6 @@
         </main>
     </div>
 </body>
-  <script>
-    // menu hamburguer
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-title');
 
-    if (navToggle && navMenu) {
-      navToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        navMenu.classList.toggle('active');
-      });
 
-      document.querySelectorAll('.nav-title a').forEach(link => {
-        link.addEventListener('click', () => {
-          navMenu.classList.remove('active');
-        });
-      });
-
-      document.addEventListener('click', (e) => {
-        if (!navMenu.contains(e.target) && !navToggle.contains(e.target) && navMenu.classList.contains('active')) {
-          navMenu.classList.remove('active');
-        }
-      });
-
-      console.log('Nav toggle:', navToggle);
-      console.log('Nav menu:', navMenu);
-    }
-  </script>
 </html>
