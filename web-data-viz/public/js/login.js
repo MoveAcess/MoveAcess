@@ -23,7 +23,7 @@ function entrar() {
                 sessionStorage.ID_USUARIO = json.idUsuario;
             });
 
-            window.location = "/dashboard/mural.html";
+            window.location = "/dashboard/mapa.html";
 
         }
     }).catch(function (erro) {
