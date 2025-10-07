@@ -1,85 +1,546 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Acessibilidade em Transporte Público</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <title>Dashboard - MoveAcess</title>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f9fafb;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-    <link rel="stylesheet" href="../css/mapa.css">
+        .dashboard {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            padding: 24px 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            padding: 0 24px 32px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #1f2937;
+            font-weight: 600;
+            font-size: 18px;
+            margin-left: 45px;
+        }
+
+        .logo i {
+            background: #2563eb;
+            color: white;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .nav-menu {
+            padding: 24px 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            color: #6b7280;
+            text-decoration: none;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .nav-item.active {
+            background: #eff6ff;
+            color: #2563eb;
+            border-left-color: #2563eb;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #1f2937;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #2563eb;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f3f4f6;
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            background: #eff6ff;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .stat-title {
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .stat-subtitle {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .stat-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .stat-change.positive {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .stat-change.negative {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        /* Charts */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 24px;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f3f4f6;
+        }
+
+        .chart-title {
+            color: #1f2937;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: fixed;
+                top: 0;
+                left: -100%;
+                z-index: 1000;
+                transition: left 0.3s;
+            }
+            
+            .sidebar.open {
+                left: 0;
+            }
+            
+            .main-content {
+                margin-top: 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #1f2937;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+        }
+    </style>
 </head>
-
 <body>
-
-    <div class="header">
-        <nav class="navbar">    
-
-            <button class="nav-toggle" aria-label="abrir menu">
-                <div class="hamburger-line"></div>
-                <div class="hamburger-line"></div>
-                <div class="hamburger-line"></div>
-            </button>
-
-            <div class="nav-title">
-                <a href="../index.html#banner">Home</a>
-                <a href="../index.html#what-we-do">Sobre</a>
-                <a href="../index.html#about">Solução</a>
-                <a href="../index.html#footer">Contate-nos</a>
-            </div>
-        </nav>
-    </div>
-
-    <div class="dashboard-container">
-        <aside class="sidebar">
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <img src="../assets/imgs/logo.svg" alt="Logo MoveAcess" class="logo">
+                <div class="logo">
+                    <img src="../assets/imgs/logo.svg" alt="" width="120px">
+                </div>
             </div>
-            <nav class="sidebar-nav">
-                <ul>
-                    <li><a href="#" class="active"><i class="ph-fill ph-house"></i>Mapa</a></li>
-                    <li><a href="#"><i class="ph-fill ph-file-text"></i>Mural</a></li>
-                    <li><a href="#"><i class="ph-fill ph-map-trifold"></i> Rotas</a></li>
-                </ul>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-bus"></i>
+                    <span>Frota</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-subway"></i>
+                    <span>Estações</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Reclamações</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Relatórios</span>
+                </a>
+                <br><br><br><br><br><br><br><br><br><br>
+                <a href="../index.html" class="nav-item">
+                    <i class="fa-solid fa-door-open"></i>
+                    <span>Sair</span>
+                </a>
             </nav>
-            <div class="sidebar-footer">
-                <a href="../index.html"><i class="ph-fill ph-sign-out"></i> Sair</a>
-            </div>
         </aside>
 
-        <main class="main-content">
-            <header>
-                <h1>Rota recomendada</h1>
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div>
+                    <button class="menu-toggle" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Dashboard</h1>
+                </div>
+                <!-- <div class="user-profile">
+                    <span>João Silva</span>
+                    <div class="avatar">JS</div>
+                </div> -->
             </header>
 
-            <div class="search-container">
-                <i class="ph ph-magnifying-glass"></i>
-                <input type="text" placeholder="Pesquisar rota">
-            </div>
+            <!-- Content -->
+            <main class="content">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <i class="fas fa-bus"></i>
+                            </div>
+                            <div class="stat-title">Ônibus Acessíveis em SP</div>
+                        </div>
+                        <div class="stat-value">45%</div>
+                        <div class="stat-subtitle">da frota total</div>
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            +5%
+                        </span>
+                    </div>
 
-            <section class="route-display">
-                <div class="map-container">
-                    <img src="../assets/imgs/mapa.png" alt="Mapa mostrando uma rota do ponto A ao ponto B">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-title">Elevadores Inoperantes</div>
+                        </div>
+                        <div class="stat-value">23</div>
+                        <div class="stat-subtitle">em estações de metrô</div>
+                        <span class="stat-change negative">
+                            <i class="fas fa-arrow-down"></i>
+                            -8%
+                        </span>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="stat-title">Reclamações Registradas</div>
+                        </div>
+                        <div class="stat-value">187</div>
+                        <div class="stat-subtitle">nos últimos 30 dias</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <div class="stat-title">Frota Acessível em Tempo Real</div>
+                        </div>
+                        <div class="stat-value">342</div>
+                        <div class="stat-subtitle">veículos operando</div>
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            +12
+                        </span>
+                    </div>
                 </div>
 
-                <div class="route-details-card">
-                    <h3>Melhor rota</h3>
-                    <div class="info-item">
-                        <span class="value">Rua X - Rua Y</span>
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3 class="chart-title">Evolução da Acessibilidade (2019-2024)</h3>
+                        <div class="chart-container">
+                            <canvas id="evolutionChart"></canvas>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <span class="label">Duração</span>
-                        <span class="value">6 min</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="label">Distância</span>
-                        <span class="value">500 m</span>
+
+                    <div class="chart-card">
+                        <h3 class="chart-title">Distribuição por Nível de Acessibilidade</h3>
+                        <div class="chart-container">
+                            <canvas id="distributionChart"></canvas>
+                        </div>
                     </div>
                 </div>
-            </section>
-        </main>
+            </main>
+        </div>
     </div>
+
+    <script>
+        // Toggle Sidebar for mobile
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.querySelector('.menu-toggle');
+            
+            if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Evolution Chart
+        const ctx1 = document.getElementById('evolutionChart').getContext('2d');
+        const evolutionChart = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
+                datasets: [{
+                    label: 'Percentual de Acessibilidade',
+                    data: [25, 28, 32, 37, 41, 45],
+                    backgroundColor: '#3b82f6',
+                    borderColor: '#2563eb',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Distribution Chart
+        const ctx2 = document.getElementById('distributionChart').getContext('2d');
+        const distributionChart = new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    'Totalmente Acessível',
+                    'Parcialmente Acessível', 
+                    'Não Acessível',
+                    'Em Adaptação'
+                ],
+                datasets: [{
+                    data: [45, 30, 15, 10],
+                    backgroundColor: [
+                        '#10b981',
+                        '#f59e0b', 
+                        '#ef4444',
+                        '#6366f1'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true
+                        }
+                    }
+                }
+            }
+        });
+
+        // Simulate real-time updates
+        setInterval(() => {
+            // Update random stat
+            const statsValues = document.querySelectorAll('.stat-value');
+            const randomIndex = Math.floor(Math.random() * statsValues.length);
+            const currentValue = parseInt(statsValues[randomIndex].textContent);
+            const change = Math.floor(Math.random() * 5) - 2;
+            
+            if (randomIndex === 0) {
+                // Percentage
+                const newValue = Math.max(0, Math.min(100, currentValue + change));
+                statsValues[randomIndex].textContent = newValue + '%';
+            } else {
+                // Regular numbers
+                const newValue = Math.max(0, currentValue + change);
+                statsValues[randomIndex].textContent = newValue;
+            }
+        }, 5000);
+    </script>
 </body>
-
-
 </html>
