@@ -51,18 +51,19 @@
         <label for="input_senha">Senha:</label>
         <input type="password" id="input_senha" placeholder="Sua senha" required>
 
-        <button type="submit">Cadastrar</button>
+        <button type="button" onclick="cadastrar()">Cadastrar</button>
       </form>
 
       <p>Já possui uma conta? <a href="login.html">Faça login</a></p>
     </div>
   </main>
 
+  
   <script>
     // menu hamburguer
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-title');
-
+    
     if (navToggle && navMenu) {
       navToggle.addEventListener('click', (e) => {
         e.preventDefault();
@@ -85,6 +86,8 @@
       });
     }
   </script>
+
+  <script src="js/cadastro.js"></script>
 </body>
 
 </html>
