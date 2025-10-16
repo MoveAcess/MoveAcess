@@ -1,292 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Acessibilidade em Transporte Público</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Mapa - Acessibilidade em Transporte Público</title>
+    <link rel="icon" href="../assets/imgs/logoPreta.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f9fafb;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .dashboard {
-            display: flex;
-            height: 100vh;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 260px;
-            background: white;
-            border-right: 1px solid #e5e7eb;
-            padding: 24px 0;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar-header {
-            padding: 0 24px 32px;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #1f2937;
-            font-weight: 600;
-            font-size: 18px;
-            margin-left: 45px;
-        }
-
-        .logo i {
-            background: #2563eb;
-            color: white;
-            padding: 8px;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-
-        .nav-menu {
-            padding: 24px 0;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 24px;
-            color: #6b7280;
-            text-decoration: none;
-            transition: all 0.2s;
-            border-left: 3px solid transparent;
-        }
-
-        .nav-item:hover {
-            background: #f3f4f6;
-            color: #1f2937;
-        }
-
-        .nav-item.active {
-            background: #eff6ff;
-            color: #2563eb;
-            border-left-color: #2563eb;
-        }
-
-        .nav-item i {
-            width: 20px;
-            text-align: center;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        /* Header */
-        .header {
-            background: white;
-            padding: 16px 24px;
-            border-bottom: 1px solid #e5e7eb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header h1 {
-            color: #1f2937;
-            font-size: 24px;
-            font-weight: 600;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #2563eb;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-        }
-
-        /* Content Area */
-        .content {
-            flex: 1;
-            padding: 24px;
-            overflow-y: auto;
-        }
-
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            border: 1px solid #f3f4f6;
-        }
-
-        .stat-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .stat-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 8px;
-            background: #eff6ff;
-            color: #2563eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-
-        .stat-title {
-            color: #6b7280;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .stat-value {
-            font-size: 32px;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 4px;
-        }
-
-        .stat-subtitle {
-            color: #6b7280;
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-
-        .stat-change {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 4px 8px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .stat-change.positive {
-            background: #dcfce7;
-            color: #16a34a;
-        }
-
-        .stat-change.negative {
-            background: #fef2f2;
-            color: #dc2626;
-        }
-
-        /* Charts */
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 24px;
-        }
-
-        .chart-card {
-            background: white;
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            border: 1px solid #f3f4f6;
-        }
-
-        .chart-title {
-            color: #1f2937;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .chart-container {
-            position: relative;
-            height: 300px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .dashboard {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: fixed;
-                top: 0;
-                left: -100%;
-                z-index: 1000;
-                transition: left 0.3s;
-            }
-            
-            .sidebar.open {
-                left: 0;
-            }
-            
-            .main-content {
-                margin-top: 0;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .charts-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 20px;
-            color: #1f2937;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../css/dashboards.css">
 </head>
+
 <body>
     <div class="dashboard">
         <!-- Sidebar -->
@@ -296,34 +19,21 @@
                     <img src="../assets/imgs/logo.svg" alt="" width="120px">
                 </div>
             </div>
-            
+
             <nav class="nav-menu">
-                <a href="#" class="nav-item active">
+                <a href="mural.html" class="nav-item">
                     <i class="fas fa-chart-bar"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-bus"></i>
-                    <span>Frota</span>
+                <a href="mapa.html" class="nav-item active">
+                    <i class="fa-regular fa-map"></i>
+                    <span>Mapas</span>
                 </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-subway"></i>
-                    <span>Estações</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <span>Reclamações</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-cog"></i>
-                    <span>Configurações</span>
-                </a>
-                <a href="#" class="nav-item">
+                <a href="relatorios.html" class="nav-item">
                     <i class="fas fa-chart-line"></i>
                     <span>Relatórios</span>
                 </a>
-                <br><br><br><br><br><br><br><br><br><br>
-                <a href="../index.html" class="nav-item">
+                <a href="../index.html" class="nav-item" id="sair">
                     <i class="fa-solid fa-door-open"></i>
                     <span>Sair</span>
                 </a>
@@ -334,93 +44,135 @@
         <div class="main-content">
             <!-- Header -->
             <header class="header">
-                <div>
-                    <button class="menu-toggle" onclick="toggleSidebar()">
-                        <i class="fas fa-bars"></i>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="nav-toggle" aria-label="abrir menu">
+                        <div class="hamburger-line"></div>
+                        <div class="hamburger-line"></div>
+                        <div class="hamburger-line"></div>
                     </button>
-                    <h1>Dashboard</h1>
+                    <h1>Mapa de Ônibus</h1>
                 </div>
-                <!-- <div class="user-profile">
-                    <span>João Silva</span>
-                    <div class="avatar">JS</div>
-                </div> -->
             </header>
 
             <!-- Content -->
             <main class="content">
-                <!-- Stats Cards -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-header">
-                            <div class="stat-icon">
-                                <i class="fas fa-bus"></i>
+                <div class="mapa-container">
+                    <!-- Mapa Visual -->
+                    <div class="mapa-visual">
+                        <div style="text-align: center; color: #6b7280;">
+                            <i class="fas fa-map-marked-alt" style="font-size: 48px; margin-bottom: 16px;"></i>
+                            <h3 style="color: #1f2937; margin-bottom: 8px;">Mapa em Tempo Real</h3>
+                            <p>Visualização da localização dos ônibus</p>
+                        </div>
+
+                        <!-- Marcadores dos ônibus -->
+                        <div class="marcador-onibus" style="top: 30%; left: 40%;">#6542</div>
+                        <div class="marcador-onibus" style="top: 50%; left: 60%;">#7429</div>
+                        <div class="marcador-onibus parcial" style="top: 70%; left: 35%;">#9234</div>
+                        <div class="marcador-onibus" style="top: 40%; left: 70%;">#5687</div>
+                        <div class="marcador-onibus nao-acessivel" style="top: 60%; left: 25%;">#453</div>
+                        <div class="marcador-onibus" style="top: 20%; left: 55%;">#6821</div>
+                    </div>
+
+                    <!-- Sidebar de Informações -->
+                    <div class="mapa-sidebar">
+                        <h1 class="mapa-title">Mapa de Ônibus em Tempo Real</h1>
+                        <p class="mapa-subtitle">Localização e status de acessibilidade da frota</p>
+
+                        <div class="divider"></div>
+
+                        <!-- Frota Ativa -->
+                        <h2 class="section-title">Frota Ativa</h2>
+                        <div class="frota-info">
+                            <div class="frota-count">6 veículos</div>
+                            <div class="frota-label">operando</div>
+                        </div>
+
+                        <!-- Lista de Ônibus -->
+                        <div class="onibus-lista">
+                            <div class="onibus-item">
+                                <div class="onibus-numero">#6542</div>
+                                <div class="onibus-placa">875J-10</div>
+                                <div class="onibus-status status-acessivel">Totalmente Acessível</div>
+                                <div class="onibus-passageiros">23 passageiros</div>
                             </div>
-                            <div class="stat-title">Ônibus Acessíveis em SP</div>
-                        </div>
-                        <div class="stat-value">45%</div>
-                        <div class="stat-subtitle">da frota total</div>
-                        <span class="stat-change positive">
-                            <i class="fas fa-arrow-up"></i>
-                            +5%
-                        </span>
-                    </div>
 
-                    <div class="stat-card">
-                        <div class="stat-header">
-                            <div class="stat-icon">
-                                <i class="fas fa-clock"></i>
+                            <div class="onibus-item">
+                                <div class="onibus-numero">#7429</div>
+                                <div class="onibus-placa">675D-10</div>
+                                <div class="onibus-status status-acessivel">Totalmente Acessível</div>
+                                <div class="onibus-passageiros">18 passageiros</div>
                             </div>
-                            <div class="stat-title">Elevadores Inoperantes</div>
-                        </div>
-                        <div class="stat-value">23</div>
-                        <div class="stat-subtitle">em estações de metrô</div>
-                        <span class="stat-change negative">
-                            <i class="fas fa-arrow-down"></i>
-                            -8%
-                        </span>
-                    </div>
 
-                    <div class="stat-card">
-                        <div class="stat-header">
-                            <div class="stat-icon">
-                                <i class="fas fa-file-alt"></i>
+                            <div class="onibus-item parcial">
+                                <div class="onibus-numero">#9234</div>
+                                <div class="onibus-placa">943P-10</div>
+                                <div class="onibus-status status-parcial">Parcialmente Acessível</div>
+                                <div class="onibus-passageiros">31 passageiros</div>
                             </div>
-                            <div class="stat-title">Reclamações Registradas</div>
-                        </div>
-                        <div class="stat-value">187</div>
-                        <div class="stat-subtitle">nos últimos 30 dias</div>
-                    </div>
 
-                    <div class="stat-card">
-                        <div class="stat-header">
-                            <div class="stat-icon">
-                                <i class="fas fa-chart-bar"></i>
+                            <div class="onibus-item">
+                                <div class="onibus-numero">#5687</div>
+                                <div class="onibus-placa">512A-10</div>
+                                <div class="onibus-status status-acessivel">Totalmente Acessível</div>
+                                <div class="onibus-passageiros">15 passageiros</div>
                             </div>
-                            <div class="stat-title">Frota Acessível em Tempo Real</div>
-                        </div>
-                        <div class="stat-value">342</div>
-                        <div class="stat-subtitle">veículos operando</div>
-                        <span class="stat-change positive">
-                            <i class="fas fa-arrow-up"></i>
-                            +12
-                        </span>
-                    </div>
-                </div>
 
-                <!-- Charts -->
-                <div class="charts-grid">
-                    <div class="chart-card">
-                        <h3 class="chart-title">Evolução da Acessibilidade (2019-2024)</h3>
-                        <div class="chart-container">
-                            <canvas id="evolutionChart"></canvas>
-                        </div>
-                    </div>
+                            <div class="onibus-item nao-acessivel">
+                                <div class="onibus-numero">#453</div>
+                                <div class="onibus-placa">269M-10</div>
+                                <div class="onibus-status status-nao">Não Acessível</div>
+                                <div class="onibus-passageiros">27 passageiros</div>
+                            </div>
 
-                    <div class="chart-card">
-                        <h3 class="chart-title">Distribuição por Nível de Acessibilidade</h3>
-                        <div class="chart-container">
-                            <canvas id="distributionChart"></canvas>
+                            <div class="onibus-item">
+                                <div class="onibus-numero">#6821</div>
+                                <div class="onibus-placa">234B-10</div>
+                                <div class="onibus-status status-acessivel">Totalmente Acessível</div>
+                                <div class="onibus-passageiros">20 passageiros</div>
+                            </div>
                         </div>
+
+                        <div class="divider"></div>
+
+                        <!-- Detalhes do Ônibus Selecionado -->
+                        <h2 class="section-title">Ônibus #6542</h2>
+                        <div class="detalhes-onibus">
+                            <div class="detalhes-title">Detalhes do Veículo</div>
+                            <div class="detalhes-info">
+                                <div class="detalhes-label">Linha:</div>
+                                <div class="detalhes-value">875J-10</div>
+
+                                <div class="detalhes-label">Status:</div>
+                                <div class="detalhes-value">Totalmente Acessível</div>
+
+                                <div class="detalhes-label">Passageiros:</div>
+                                <div class="detalhes-value">23</div>
+
+                                <div class="detalhes-label">Localização:</div>
+                                <div class="detalhes-value">-23.5505, -46.6333</div>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <!-- Legenda -->
+                        <h2 class="section-title">Legenda</h2>
+                        <div class="legenda">
+                            <div class="legenda-item">
+                                <div class="legenda-cor cor-acessivel"></div>
+                                <span>Totalmente Acessível</span>
+                            </div>
+                            <div class="legenda-item">
+                                <div class="legenda-cor cor-parcial"></div>
+                                <span>Parcialmente Acessível</span>
+                            </div>
+                            <div class="legenda-item">
+                                <div class="legenda-cor cor-nao"></div>
+                                <span>Não Acessível</span>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </main>
@@ -429,118 +181,39 @@
 
     <script>
         // Toggle Sidebar for mobile
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('open');
+        const navToggle = document.querySelector('.nav-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        if (navToggle && sidebar) {
+            navToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                sidebar.classList.toggle('open');
+            });
+
+            // Close sidebar when clicking on nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    sidebar.classList.remove('open');
+                });
+            });
+
+            // Close sidebar when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!sidebar.contains(e.target) && !navToggle.contains(e.target) && sidebar.classList.contains('open')) {
+                    sidebar.classList.remove('open');
+                }
+            });
         }
 
-        // Close sidebar when clicking outside
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const menuToggle = document.querySelector('.menu-toggle');
-            
-            if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
-                sidebar.classList.remove('open');
-            }
+        // Simular interação com os marcadores do mapa
+        document.querySelectorAll('.marcador-onibus').forEach(marcador => {
+            marcador.addEventListener('click', function () {
+                const numeroOnibus = this.textContent;
+                alert(`Ônibus ${numeroOnibus} selecionado!`);
+                // Aqui você pode adicionar lógica para mostrar detalhes específicos do ônibus
+            });
         });
-
-        // Evolution Chart
-        const ctx1 = document.getElementById('evolutionChart').getContext('2d');
-        const evolutionChart = new Chart(ctx1, {
-            type: 'bar',
-            data: {
-                labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
-                datasets: [{
-                    label: 'Percentual de Acessibilidade',
-                    data: [25, 28, 32, 37, 41, 45],
-                    backgroundColor: '#3b82f6',
-                    borderColor: '#2563eb',
-                    borderWidth: 1,
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
-
-        // Distribution Chart
-        const ctx2 = document.getElementById('distributionChart').getContext('2d');
-        const distributionChart = new Chart(ctx2, {
-            type: 'doughnut',
-            data: {
-                labels: [
-                    'Totalmente Acessível',
-                    'Parcialmente Acessível', 
-                    'Não Acessível',
-                    'Em Adaptação'
-                ],
-                datasets: [{
-                    data: [45, 30, 15, 10],
-                    backgroundColor: [
-                        '#10b981',
-                        '#f59e0b', 
-                        '#ef4444',
-                        '#6366f1'
-                    ],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            padding: 20,
-                            usePointStyle: true
-                        }
-                    }
-                }
-            }
-        });
-
-        // Simulate real-time updates
-        setInterval(() => {
-            // Update random stat
-            const statsValues = document.querySelectorAll('.stat-value');
-            const randomIndex = Math.floor(Math.random() * statsValues.length);
-            const currentValue = parseInt(statsValues[randomIndex].textContent);
-            const change = Math.floor(Math.random() * 5) - 2;
-            
-            if (randomIndex === 0) {
-                // Percentage
-                const newValue = Math.max(0, Math.min(100, currentValue + change));
-                statsValues[randomIndex].textContent = newValue + '%';
-            } else {
-                // Regular numbers
-                const newValue = Math.max(0, currentValue + change);
-                statsValues[randomIndex].textContent = newValue;
-            }
-        }, 5000);
     </script>
 </body>
+
 </html>

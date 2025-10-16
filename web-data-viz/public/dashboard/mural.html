@@ -1,250 +1,245 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
-    <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AquaTech | Avisos</title>
+    <title>Dashboard - Acessibilidade em Transporte Público</title>
+    <link rel="icon" href="../assets/imgs/logoPreta.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dashboards.css">
 
-    <link rel="stylesheet" href="./../css/dashboards.css">
-    <link rel="stylesheet" href="./../css/estilo.css" />
-    <script src="../js/sessao.js"></script>
-    <script src="./../js/alerta.js"></script>
-
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
 </head>
 
-<body onload="validarSessao(), atualizarFeed()" style="background-color: #161618;">
-
-    <div class="janela">
-
-
-        <div class="header-left">
-
-            <h1>AquaTech</h1>
-
-            <div class="hello">
-                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
-            </div>
-
-            <div class="btn-nav-white">
-                <a href="cards.html">
-                    <h3>Aquários</h3>
-                </a>
-            </div>
-
-            <div class="btn-nav-white">
-                <a href="./dashboard.html">
-                    <h3>Gráficos</h3>
-                </a>
-            </div>
-
-            <div class="btn-nav">
-                <h3>Mural de Avisos</h3>
-            </div>
-
-            <div class="btn-logout" onclick="limparSessao()">
-                <h3>Sair</h3>
-            </div>
-
-        </div>
-
-        <div class="dash-right">
-
-
-            <div class="avisos">
-                <div id="alerta">
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="../assets/imgs/logo.svg" alt="" width="120px">
                 </div>
-                <div class="container">
-                    <h1>Publicar um aviso</h1>
-                    <div class="div-form">
-                        <form id="form_postagem" method="post" onsubmit="return publicar()">
-                            <label>
-                                Título:
-                                <br>
-                                <input name="titulo" id="titulo" maxlength="100" type="text">
-                            </label>
-                            <br>
-                            <br>
-                            <label>
-                                Descrição (máximo de 250 caracteres):
-                                <br>
-                                <textarea name="descricao" id="textarea_descricao" maxlength="250" rows="5"></textarea>
-                            </label>
-                            <br>
-                            <br>
-                            <button>Enviar</button>
-                        </form>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="mural.html" class="nav-item active">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="mapa.html" class="nav-item">
+                    <i class="fa-regular fa-map"></i>
+                    <span>Mapas</span>
+                </a>
+                <a href="relatorios.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Relatórios</span>
+                </a>
+                <a href="../index.html" class="nav-item" id="sair">
+                    <i class="fa-solid fa-door-open"></i>
+                    <span>Sair</span>
+                </a>
+            </nav>
+        </aside>
+
+        <div class="main-content">
+            <header class="header">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="nav-toggle" aria-label="abrir menu">
+                        <div class="hamburger-line"></div>
+                        <div class="hamburger-line"></div>
+                        <div class="hamburger-line"></div>
+                    </button>
+                    <h1>Dashboard</h1>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <main class="content">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <i class="fas fa-bus"></i>
+                            </div>
+                            <div class="stat-title">Ônibus Acessíveis em SP</div>
+                        </div>
+                        <div class="stat-value">45%</div>
+                        <div class="stat-subtitle">da frota total</div>
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            +5%
+                        </span>
                     </div>
-                    <h1>Mural de Avisos</h1>
-                    <div class="div-results">
-                        <div id="feed_container" class="feed-container">
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-title">Elevadores Inoperantes</div>
+                        </div>
+                        <div class="stat-value">23</div>
+                        <div class="stat-subtitle">em estações de metrô</div>
+                        <span class="stat-change negative">
+                            <i class="fas fa-arrow-down"></i>
+                            -8%
+                        </span>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="stat-title">Reclamações Registradas</div>
+                        </div>
+                        <div class="stat-value">187</div>
+                        <div class="stat-subtitle">nos últimos 30 dias</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <div class="stat-title">Frota Acessível</div>
+                        </div>
+                        <div class="stat-value">342</div>
+                        <div class="stat-subtitle">veículos operando</div>
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            +12
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3 class="chart-title">Evolução da Acessibilidade (2019-2024)</h3>
+                        <div class="chart-container">
+                            <canvas id="evolutionChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <h3 class="chart-title">Distribuição por Nível de Acessibilidade</h3>
+                        <div class="chart-container">
+                            <canvas id="distributionChart"></canvas>
                         </div>
                     </div>
                 </div>
-            </div>
+            </main>
         </div>
     </div>
 
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const sidebar = document.getElementById('sidebar');
 
+        if (navToggle && sidebar) {
+            navToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                sidebar.classList.toggle('open');
+            });
 
+            // Close sidebar when clicking on nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    sidebar.classList.remove('open');
+                });
+            });
 
+            // Close sidebar when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!sidebar.contains(e.target) && !navToggle.contains(e.target) && sidebar.classList.contains('open')) {
+                    sidebar.classList.remove('open');
+                }
+            });
+        }
+
+        // Evolution Chart
+        const ctx1 = document.getElementById('evolutionChart').getContext('2d');
+        const evolutionChart = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
+                datasets: [{
+                    label: 'Percentual de Acessibilidade',
+                    data: [25, 28, 32, 37, 41, 45],
+                    backgroundColor: '#3b82f6',
+                    borderColor: '#2563eb',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function (value) {
+                                return value + '%';
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Distribution Chart
+        const ctx2 = document.getElementById('distributionChart').getContext('2d');
+        const distributionChart = new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    'Totalmente Acessível',
+                    'Parcialmente Acessível',
+                    'Não Acessível',
+                    'Em Adaptação'
+                ],
+                datasets: [{
+                    data: [45, 30, 15, 10],
+                    backgroundColor: [
+                        '#10b981',
+                        '#f59e0b',
+                        '#ef4444',
+                        '#6366f1'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
 </body>
 
 </html>
-
-<script>
-    
-    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-
-    function limparFormulario() {
-        document.getElementById("form_postagem").reset();
-    }
-
-    function publicar() {
-        var idUsuario = sessionStorage.ID_USUARIO;
-
-        var corpo = {
-            titulo: form_postagem.titulo.value,
-            descricao: form_postagem.descricao.value
-        }
-
-        fetch(`/avisos/publicar/${idUsuario}`, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(corpo)
-        }).then(function (resposta) {
-
-            console.log("resposta: ", resposta);
-
-            if (resposta.ok) {
-                window.alert("Post realizado com sucesso pelo usuario de ID: " + idUsuario + "!");
-                window.location = "/dashboard/mural.html";
-                limparFormulario();
-                finalizarAguardar();
-            } else if (resposta.status == 404) {
-                window.alert("Deu 404!");
-            } else {
-                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
-            }
-        }).catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-            finalizarAguardar();
-        });
-
-        return false;
-
-    }
-
-    function editar(idAviso) {
-        sessionStorage.ID_POSTAGEM_EDITANDO = idAviso;
-        console.log("cliquei em editar - " + idAviso);
-        window.alert("Você será redirecionado à página de edição do aviso de id número: " + idAviso);
-        window.location = "/dashboard/edicao-aviso.html"
-
-    }
-
-    function deletar(idAviso) {
-        console.log("Criar função de apagar post escolhido - ID" + idAviso);
-        fetch(`/avisos/deletar/${idAviso}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then(function (resposta) {
-
-            if (resposta.ok) {
-                window.alert("Post deletado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
-                window.location = "/dashboard/mural.html"
-            } else if (resposta.status == 404) {
-                window.alert("Deu 404!");
-            } else {
-                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
-            }
-        }).catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-        });
-    }
-
-    function atualizarFeed() {
-        fetch("/avisos/listar").then(function (resposta) {
-            if (resposta.ok) {
-                if (resposta.status == 204) {
-                    var feed = document.getElementById("feed_container");
-                    var mensagem = document.createElement("span");
-                    mensagem.innerHTML = "Nenhum resultado encontrado."
-                    feed.appendChild(mensagem);
-                    throw "Nenhum resultado encontrado!!";
-                }
-
-                resposta.json().then(function (resposta) {
-                    console.log("Dados recebidos: ", JSON.stringify(resposta));
-
-                    var feed = document.getElementById("feed_container");
-                    feed.innerHTML = "";
-                    for (let i = 0; i < resposta.length; i++) {
-                        var publicacao = resposta[i];
-
-                        // criando e manipulando elementos do HTML via JavaScript
-                        var divPublicacao = document.createElement("div");
-                        var spanID = document.createElement("span");
-                        var spanTitulo = document.createElement("span");
-                        var spanNome = document.createElement("span");
-                        var divDescricao = document.createElement("div");
-                        var divButtons = document.createElement("div");
-                        var btnEditar = document.createElement("button");
-                        var btnDeletar = document.createElement("button");
-
-
-                        spanID.innerHTML = "ID: <b>" + publicacao.idAviso + "</b>";
-                        spanTitulo.innerHTML = "Título: <b>" + publicacao.titulo + "</b>";
-                        spanNome.innerHTML = "Autor: <b>" + publicacao.nome + "</b>";
-                        divDescricao.innerHTML = "Descrição: <b>" + publicacao.descricao + "</b>";
-                        btnEditar.innerHTML = "Editar";
-                        btnDeletar.innerHTML = "Deletar";
-
-                        divPublicacao.className = "publicacao";
-                        spanTitulo.id = "inputNumero" + publicacao.idAviso;
-                        spanNome.className = "publicacao-nome";
-                        spanTitulo.className = "publicacao-titulo";
-                        divDescricao.className = "publicacao-descricao";
-
-                        divButtons.className = "div-buttons"
-
-                        btnEditar.className = "publicacao-btn-editar"
-                        btnEditar.id = "btnEditar" + publicacao.idAviso;
-                        btnEditar.setAttribute("onclick", `editar(${publicacao.idAviso})`);
-
-                        btnDeletar.className = "publicacao-btn-editar"
-                        btnDeletar.id = "btnDeletar" + publicacao.idAviso;
-                        btnDeletar.setAttribute("onclick", `deletar(${publicacao.idAviso})`);
-
-                        divPublicacao.appendChild(spanID);
-                        divPublicacao.appendChild(spanNome);
-                        divPublicacao.appendChild(spanTitulo);
-                        divPublicacao.appendChild(divDescricao);
-                        divPublicacao.appendChild(divButtons);
-                        divButtons.appendChild(btnEditar);
-                        divButtons.appendChild(btnDeletar);
-                        feed.appendChild(divPublicacao);
-                    }
-
-                    finalizarAguardar();
-                });
-            } else {
-                throw ('Houve um erro na API!');
-            }
-        }).catch(function (resposta) {
-            console.error(resposta);
-            finalizarAguardar();
-        });
-    }
-
-</script>
