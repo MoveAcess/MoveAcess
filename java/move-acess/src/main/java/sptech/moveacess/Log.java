@@ -1,4 +1,4 @@
-package school.sptech;
+package sptech.moveacess;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

@@ -52,15 +52,3 @@ CREATE TABLE logs(
 	horaEncerramentoProcesso DATETIME,
 	qtdErros INT
 );
-
-CREATE TABLE IF NOT EXISTS cptm_acessibilidade (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  estacao VARCHAR(255),
-  linhas VARCHAR(255),
-  equipamentos TEXT
-);
-
-
-
-
-
