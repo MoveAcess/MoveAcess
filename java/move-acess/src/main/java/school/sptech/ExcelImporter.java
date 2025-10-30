@@ -22,34 +22,55 @@ public class ExcelImporter {
 
             Sheet sheet = workbook.getSheetAt(0);
             Iterator<Row> rows = sheet.iterator();
-            if (!rows.hasNext()) return;
-            Row header = rows.next();
-            String sql = "INSERT INTO cptm_acessibilidade (estacao, linhas, equipamentos) VALUES (?, ?, ?)";
+
+            if (rows.hasNext()) rows.next();
+
+            String sql = "INSERT INTO estacao (nome, linha) VALUES (?, ?)";
+
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                int count = 0;
+
                 while (rows.hasNext()) {
-                    Row r = rows.next();
-                    String estacao = getCellString(r.getCell(0));
-                    String linhas = getCellString(r.getCell(1));
-                    String equipamentos = getCellString(r.getCell(2));
-                    ps.setString(1, nullable(estacao));
-                    ps.setString(2, nullable(linhas));
-                    ps.setString(3, nullable(equipamentos));
+                    Row row = rows.next();
+
+                    String nome = getCellString(row.getCell(0));
+                    String linha = getCellString(row.getCell(1));
+
+                    if ((nome == null || nome.isBlank()) && (linha == null || linha.isBlank())) {
+                        continue;
+                    }
+
+                    ps.setString(1, nullable(nome));
+                    ps.setString(2, nullable(linha));
                     ps.addBatch();
+
+                    if (++count % 500 == 0) {
+                        ps.executeBatch();
+                    }
                 }
                 ps.executeBatch();
             }
+
+            System.out.println("✅ Inserção finalizada com sucesso!");
         }
     }
 
-    private String getCellString(Cell c) {
-        if (c == null) return null;
-        if (c.getCellType() == CellType.STRING) return c.getStringCellValue().trim();
-        if (c.getCellType() == CellType.NUMERIC) return String.valueOf(c.getNumericCellValue());
-        if (c.getCellType() == CellType.BOOLEAN) return String.valueOf(c.getBooleanCellValue());
-        if (c.getCellType() == CellType.FORMULA) {
-            try { return c.getStringCellValue(); } catch (Exception e) { return String.valueOf(c.getNumericCellValue()); }
-        }
-        return null;
+    private String getCellString(Cell cell) {
+        if (cell == null) return null;
+
+        return switch (cell.getCellType()) {
+            case STRING -> cell.getStringCellValue().trim();
+            case NUMERIC -> String.valueOf(cell.getNumericCellValue());
+            case BOOLEAN -> String.valueOf(cell.getBooleanCellValue());
+            case FORMULA -> {
+                try {
+                    yield cell.getStringCellValue();
+                } catch (Exception e) {
+                    yield String.valueOf(cell.getNumericCellValue());
+                }
+            }
+            default -> null;
+        };
     }
 
     private String nullable(String s) {
