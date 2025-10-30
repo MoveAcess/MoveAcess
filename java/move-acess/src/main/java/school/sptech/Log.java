@@ -1,38 +1,40 @@
 package school.sptech;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.concurrent.ThreadLocalRandom;
+import java.sql.*;
 
 public class Log {
-    public static void generateLog(String[] processes) {
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        LocalDateTime now;
-        int status, delay;
+    private final ConexaoComBanco db;
 
-        now = LocalDateTime.now();
-        System.out.printf("[%s] Iniciando processo...%n", now.format(dateFormat));
+    public Log(ConexaoComBanco db) {
+        this.db = db;
+    }
 
-        for (String process : processes) {
-            try {
-                delay = ThreadLocalRandom.current().nextInt(1000, 5000);
-                status = ThreadLocalRandom.current().nextInt(1, 3);
+    public int iniciarLog() throws Exception {
+        String sql = "INSERT INTO log_aplicacao (acao, usuario, resultado, data_execucao) VALUES (?, ?, ?, NOW())";
+        try (Connection conn = db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-                Thread.sleep(delay);
+            ps.setString(1, "Importação Excel");
+            ps.setString(2, "Sistema");
+            ps.setString(3, "Em andamento");
+            ps.executeUpdate();
 
-                now = LocalDateTime.now();
-                System.out.printf("[%s] Processo '%s' concluído. Status: %d.%n",
-                        now.format(dateFormat), process, status);
-
-            } catch (InterruptedException e) {
-                now = LocalDateTime.now();
-                System.err.printf("[%s] Ocorreu uma falha no procedimento '%s'. Erro: %s%n",
-                        now.format(dateFormat), process, e.getMessage());
-                Thread.currentThread().interrupt();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
         }
+        return 0;
+    }
 
-        now = LocalDateTime.now();
-        System.out.printf("[%s] Operação finalizada!%n", now.format(dateFormat));
+    public void finalizarLog(int id, int erros) throws Exception {
+        String sql = "UPDATE log_aplicacao SET resultado = ?, data_execucao = NOW() WHERE id = ?";
+        try (Connection conn = db.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, erros > 0 ? "Finalizado com erros: " + erros : "Concluído com sucesso");
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        }
     }
 }

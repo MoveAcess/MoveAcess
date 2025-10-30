@@ -11,14 +11,17 @@ public class ConexaoComBanco {
     private final String password;
 
     public ConexaoComBanco() {
-        try (InputStream is = ConexaoComBanco.class.getClassLoader().getResourceAsStream("application.properties")) {
-            Properties p = new Properties();
-            p.load(is);
-            url = p.getProperty("db.url");
-            user = p.getProperty("db.user");
-            password = p.getProperty("db.password");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        // REMOVE a leitura do application.properties
+        // url = p.getProperty("db.url");
+
+        // NOVO: Lê diretamente do ambiente (EC2)
+        url = System.getenv("DB_URL");
+        user = System.getenv("DB_USER");
+        password = System.getenv("DB_PASSWORD");
+
+        // Adicione uma verificação rápida para garantir que não são nulas
+        if (url == null || user == null || password == null) {
+            throw new RuntimeException("Variáveis de ambiente do BD (DB_URL, DB_USER, DB_PASSWORD) não foram encontradas.");
         }
     }
 
