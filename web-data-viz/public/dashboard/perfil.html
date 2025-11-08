@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <link rel="icon" href="../assets/imgs/logoPreta.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/perfil.css">
+
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="../assets/imgs/logo.svg" alt="" width="120px">
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="perfil.html" class="nav-item active">
+                    <i class="fa fa-user-circle-o"></i>
+                    <span>Perfil</span>
+                </a>
+                <a href="mural.html" class="nav-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="mapa.html" class="nav-item">
+                    <i class="fa-regular fa-map"></i>
+                    <span>Mapas</span>
+                </a>
+                <a href="relatorios.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Relatórios</span>
+                </a>
+                <a href="../index.html" class="nav-item" id="sair">
+                    <i class="fa-solid fa-door-open"></i>
+                    <span>Sair</span>
+                </a>
+            </nav>
+        </aside>
+
+        <div class="main-content">
+            <header class="header">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button class="nav-toggle" aria-label="abrir menu">
+                        <div class="hamburger-line"></div>
+                        <div class="hamburger-line"></div>
+                        <div class="hamburger-line"></div>
+                    </button>
+                    <h1>Perfil</h1>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <main class="content">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-value">Dados Pessoais</div>
+                        </div>
+                        <div class="stat-subtitle">
+                            Nome: <br> <br>
+                            E-mail: <br> <br>
+                            Senha: *****
+                        </div>
+
+                        <span class="stat-change positive">
+                            Alterar
+                        </span>
+                        <span class="stat-change negative">
+                            Excluir
+                        </span>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-value">Foto</div>
+                        </div>
+                        <div class="stat-subtitle">Elizabeth <br><br><br><br></div>
+                        <span class="stat-change positive">
+                            Alterar
+                        </span>
+                        <span class="stat-change negative">
+                            Excluir
+                        </span>
+                    </div>
+                </div>
+
+                                <!-- NOVO: Container de GRID para os 4 cards (100% de largura no topo) -->
+                <div class="stats-grid-wrapper">
+                    <div class="stat-grid">
+
+                        <!-- Card 1: Total de Reclamações -->
+                        <div class="status-card status-total">
+                            <div class="status-card-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="status-label">Total de Reclamações</div>
+                            <div class="status-number">187</div>
+                            <div class="status-subtitle">Últimos 30 dias</div>
+                        </div>
+
+                        <!-- Card 2: Pendentes -->
+                        <div class="status-card status-pendente">
+                            <div class="status-card-icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="status-label">Pendentes</div>
+                            <div class="status-number">45</div>
+                            <div class="status-subtitle">Aguardando resolução</div>
+                        </div>
+
+                        <!-- Card 3: Em Andamento -->
+                        <div class="status-card status-andamento">
+                            <div class="status-card-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="status-label">Em Andamento</div>
+                            <div class="status-number">89</div>
+                            <div class="status-subtitle">Sendo resolvidas</div>
+                        </div>
+
+                        <!-- Card 4: Resolvidas -->
+                        <div class="status-card status-resolvido">
+                            <div class="status-card-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="status-label">Resolvidas</div>
+                            <div class="status-number">53</div>
+                            <div class="status-subtitle">Taxa de resolução: 28%</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fim do stats-grid-wrapper -->
+
+                <!-- Main Content (Tabela) -->
+                <div class="main-content-reclamacoes">
+                    <div class="section-header">
+                        <h2 class="section-title">Relatório de Reclamações</h2>
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <div class="search-box">
+                                <i class="fas fa-search" style="color: #9ca3af;"></i>
+                                <input type="text" placeholder="Buscar por ID, tipo ou local...">
+                            </div>
+                            <button class="btn-nova-reclamacao">
+                                <i class="fas fa-plus"></i>
+                                Nova Reclamação
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tabela de Reclamações -->
+                    <table class="reclamacoes-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 120px;">ID</th>
+                                <th style="width: 140px;">Data/Hora</th>
+                                <th style="width: 120px;">Tipo</th>
+                                <th style="width: 150px;">Local</th>
+                                <th style="width: 100px;">Prioridade</th>
+                                <th style="width: 120px;">Status</th>
+                                <th>Descrição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="reclamacao-id">REC-0187</div>
+                                </td>
+                                <td>
+                                    <div class="reclamacao-data">20/04/2024 08:30</div>
+                                </td>
+                                <td><span class="tipo-badge badge-elevador">Elevador Inoperante</span></td>
+                                <td>Estação Sé - Linha 1 Azul</td>
+                                <td><span class="prioridade-badge prioridade-alta">Alta</span></td>
+                                <td><span class="status-badge status-pendente">Pendente</span></td>
+                                <td>
+                                    <div class="reclamacao-descricao">Elevador principal fora de operação há 3 dias
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="reclamacao-id">REC-0186</div>
+                                </td>
+                                <td>
+                                    <div class="reclamacao-data">20/04/2024 07:45</div>
+                                </td>
+                                <td><span class="tipo-badge badge-rampa">Rampa de Acesso</span></td>
+                                <td>Estação Paulista - Linha 4 Amarela</td>
+                                <td><span class="prioridade-badge prioridade-media">Média</span></td>
+                                <td><span class="status-badge status-andamento">Em Andamento</span></td>
+                                <td>
+                                    <div class="reclamacao-descricao">Rampa com inclinação irregular</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="reclamacao-id">REC-0185</div>
+                                </td>
+                                <td>
+                                    <div class="reclamacao-data">20/04/2024 06:20</div>
+                                </td>
+                                <td><span class="tipo-badge badge-onibus">Ônibus sem Acessibilidade</span></td>
+                                <td>Linha 875-10</td>
+                                <td><span class="prioridade-badge prioridade-baixa">Baixa</span></td>
+                                <td><span class="status-badge status-pendente">Pendente</span></td>
+                                <td>
+                                    <div class="reclamacao-descricao">Veículo sem rampa automática</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="reclamacao-id">REC-0184</div>
+                                </td>
+                                <td>
+                                    <div class="reclamacao-data">20/04/2024 05:15</div>
+                                </td>
+                                <td><span class="tipo-badge badge-piso">Piso Tátil Danificado</span></td>
+                                <td>Estação República - Linha 3 Vermelha</td>
+                                <td><span class="prioridade-badge prioridade-media">Média</span></td>
+                                <td><span class="status-badge status-andamento">Em Andamento</span></td>
+                                <td>
+                                    <div class="reclamacao-descricao">Piso tátil com várias peças soltas</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="reclamacao-id">REC-0183</div>
+                                </td>
+                                <td>
+                                    <div class="reclamacao-data">20/04/2024 04:30</div>
+                                </td>
+                                <td><span class="tipo-badge badge-elevador">Elevador Inoperante</span></td>
+                                <td>Estação Barra Funda - Linha 7 Rubi</td>
+                                <td><span class="prioridade-badge prioridade-alta">Alta</span></td>
+                                <td><span class="status-badge status-pendente">Pendente</span></td>
+                                <td>
+                                    <div class="reclamacao-descricao">Elevador com portas travadas</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="reclamacao-id">REC-0182</div>
+                                </td>
+                                <td>
+                                    <div class="reclamacao-data">20/04/2024 03:45</div>
+                                </td>
+                                <td><span class="tipo-badge badge-atendimento">Atendimento</span></td>
+                                <td>Terminal Pinheiros</td>
+                                <td><span class="prioridade-badge prioridade-baixa">Baixa</span></td>
+                                <td><span class="status-badge status-resolvido">Resolvido</span></td>
+                                <td>
+                                    <div class="reclamacao-descricao">Falta de funcionário capacitado</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="reclamacao-id">REC-0181</div>
+                                </td>
+                                <td>
+                                    <div class="reclamacao-data">20/04/2024 02:20</div>
+                                </td>
+                                <td><span class="tipo-badge badge-onibus">Ônibus sem Acessibilidade</span></td>
+                                <td>Linha 943P-10</td>
+                                <td><span class="prioridade-badge prioridade-alta">Alta</span></td>
+                                <td><span class="status-badge status-andamento">Em Andamento</span></td>
+                                <td>
+                                    <div class="reclamacao-descricao">Plataforma elevatória com defeito</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="reclamacao-id">REC-0180</div>
+                                </td>
+                                <td>
+                                    <div class="reclamacao-data">20/04/2024 01:15</div>
+                                </td>
+                                <td><span class="tipo-badge badge-sinalizacao">Sinalização</span></td>
+                                <td>Estação Luz - Linha 11 Coral</td>
+                                <td><span class="prioridade-badge prioridade-media">Média</span></td>
+                                <td><span class="status-badge status-pendente">Pendente</span></td>
+                                <td>
+                                    <div class="reclamacao-descricao">Placas de sinalização em Braille ilegíveis</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pagination">
+                        <div class="pagination-info">Mostrando 1 a 10 de 187 resultados</div>
+                        <div class="pagination-controls">
+                            <button class="pagination-btn">Anterior</button>
+                            <button class="pagination-btn active">1</button>
+                            <button class="pagination-btn">2</button>
+                            <button class="pagination-btn">Próximo</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>
