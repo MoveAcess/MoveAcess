@@ -79,23 +79,20 @@ function cadastrar(req, res) {
 }
 
 function visualizar(req, res){
-    var id = req.body.idServer;
-    
+    var id = req.params.id;
+
     usuarioModel.visualizar(id)
-    .then(
-        function (resultado) {
-            res.json(resultado);
-        }
-    ).catch(
-        function (erro){
+        .then(resultado => {
+            if (resultado.length > 0) {
+                res.json(resultado[0]); // retorna o usuário correto
+            } else {
+                res.status(404).send("Usuário não encontrado");
+            }
+        })
+        .catch(erro => {
             console.log(erro);
-            console.log(
-                "\n Houve um erro ao visualizar os dados! Erro: ",
-                erro.sqlMessage
-            );
             res.status(500).json(erro.sqlMessage);
-        }
-    );
+        });
 }
 
 function deletar(req, res){

@@ -13,8 +13,8 @@ router.post("/autenticar", function (req, res) {
 });
 
 
-router.get("/visualizar", function (req, res){
-    usuarioController.visualizar(req,res);
+router.get("/visualizar/:id", function (req, res) {
+    usuarioController.visualizar(req, res);
 });
 
 router.delete("/deletar/:id", function(req, res){

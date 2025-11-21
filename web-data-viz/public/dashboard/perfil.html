@@ -13,7 +13,7 @@
 
 </head>
 
-<body onload="validarSessao()">
+<body onload="validarSessao(), visualizar()">
     <div class="dashboard">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
@@ -68,8 +68,8 @@
                             <div class="stat-value">Dados Pessoais</div>
                         </div>
                         <div class="stat-subtitle">
-                            Nome: <br> <br>
-                            E-mail: <br> <br>
+                            Nome: <span id="nome"></span> <br> <br>
+                            E-mail: <span id="email"></span> <br> <br>
                             Senha: *****
                         </div>
 
@@ -172,7 +172,7 @@
                                 <th>Descrição</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <body>
                             <tr>
                                 <td>
                                     <div class="reclamacao-id">REC-0187</div>
@@ -312,6 +312,8 @@
     </div>
 </body>
 <script src="../js/deletar.js"></script>
+<script src="../js/visualizar.js"></script>
+
 <script>
     const navToggle = document.querySelector('.nav-toggle');
     const sidebar = document.getElementById('sidebar');
