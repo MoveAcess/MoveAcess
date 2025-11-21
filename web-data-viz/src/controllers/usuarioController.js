@@ -20,10 +20,11 @@ function autenticar(req, res) {
                         console.log(resultadoAutenticar);
 
                         res.json({
-                            id: resultadoAutenticar[0].id,
+                            idUsuario: resultadoAutenticar[0].idUsuario,
                             nome: resultadoAutenticar[0].nome,
                             email: resultadoAutenticar[0].email,
                             senha: resultadoAutenticar[0].senha,
+                            nivel_acesso: resultadoAutenticar[0].nivel_acesso,
                         });
 
 
@@ -77,7 +78,49 @@ function cadastrar(req, res) {
     }
 }
 
+function visualizar(req, res){
+    var id = req.body.idServer;
+    
+    usuarioModel.visualizar(id)
+    .then(
+        function (resultado) {
+            res.json(resultado);
+        }
+    ).catch(
+        function (erro){
+            console.log(erro);
+            console.log(
+                "\n Houve um erro ao visualizar os dados! Erro: ",
+                erro.sqlMessage
+            );
+            res.status(500).json(erro.sqlMessage);
+        }
+    );
+}
+
+function deletar(req, res){
+    var id = req.body.idServer;
+
+    usuarioModel.deletar(id)
+    .then(
+        function (resultado) {
+            res.json(resultado);
+        }
+    ).catch(
+        function (erro){
+            console.log(erro);
+            console.log(
+                "\n Houve um erro ao deletar os dados! Erro: ",
+                erro.sqlMessage
+            );
+            res.status(500).json(erro.sqlMessage);
+        }
+    );
+}
+
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    visualizar,
+    deletar
 }
