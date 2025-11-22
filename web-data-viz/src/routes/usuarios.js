@@ -21,4 +21,9 @@ router.delete("/deletar/:id", function(req, res){
     usuarioController.deletar(req, res);
 });
 
+router.put("/editar/:id", function(req, res){
+    usuarioController.editar(req, res);
+});
+
+
 module.exports = router;

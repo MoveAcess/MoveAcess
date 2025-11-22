@@ -115,9 +115,25 @@ function deletar(req, res){
     );
 }
 
+function editar(req, res) {
+    var id = req.params.id;
+    var nome = req.body.nome;
+    var email = req.body.email;
+
+    usuarioModel.editar(id, nome, email)
+        .then(() => {
+            res.status(200).json({ mensagem: "Usuário atualizado com sucesso!" });
+        })
+        .catch(erro => {
+            console.log("Erro ao editar usuário:", erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 module.exports = {
     autenticar,
     cadastrar,
     visualizar,
-    deletar
+    deletar,
+    editar
 }

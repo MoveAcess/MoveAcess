@@ -243,6 +243,15 @@ body {
   color: #dc2626;
 }
 
+.input-editar {
+    padding: 6px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 90%;
+}
+
+
 /* Responsive - ATUALIZADO PARA FICAR IGUAL AO INDEX */
 @media (max-width: 992px) {
   .nav-toggle {

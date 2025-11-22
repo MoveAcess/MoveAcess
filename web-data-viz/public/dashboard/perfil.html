@@ -73,13 +73,13 @@
                             Senha: *****
                         </div>
 
-                        <span class="stat-change positive">
+                        <span class="stat-change positive" onclick="editar()" style="cursor: pointer;">
                             Alterar
                         </span>
-                        <button class="btn-delete stat-change negative" data-delete-url="/items/123"
-                            onclick="deletar()">
+                        <span class="btn-delete stat-change negative" data-delete-url="/items/123"
+                            onclick="deletar()" style="cursor: pointer;">
                             Excluir
-                        </button>
+                        </span>
                     </div>
 
                     <div class="stat-card">
@@ -313,6 +313,7 @@
 </body>
 <script src="../js/deletar.js"></script>
 <script src="../js/visualizar.js"></script>
+<script src="../js/editar.js"></script>
 
 <script>
     const navToggle = document.querySelector('.nav-toggle');
