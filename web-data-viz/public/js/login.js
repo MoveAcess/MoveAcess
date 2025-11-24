@@ -35,33 +35,10 @@ function entrar() {
                 sessionStorage.EMAIL_USUARIO = json.email;
                 sessionStorage.NOME_USUARIO = json.nome;
                 sessionStorage.ID_USUARIO = json.idUsuario;
-                sessionStorage.NIVEL_USUARIO = json.nivelAcesso; // Salva nivelAcesso como NIVEL_USUARIO
-
-                console.log("📦 SessionStorage salvo:", {
-                    EMAIL_USUARIO: json.email,
-                    NOME_USUARIO: json.nome,
-                    ID_USUARIO: json.idUsuario,
-                    NIVEL_USUARIO: json.nivelAcesso
-                });
-
-                // Verificar se salvou corretamente
-                console.log("🔍 Verificando sessionStorage:", {
-                    EMAIL_USUARIO: sessionStorage.EMAIL_USUARIO,
-                    NOME_USUARIO: sessionStorage.NOME_USUARIO,
-                    ID_USUARIO: sessionStorage.ID_USUARIO,
-                    NIVEL_USUARIO: sessionStorage.NIVEL_USUARIO
-                });
+                sessionStorage.NIVEL_USUARIO = json.nivel_acesso;
 
                 alert("Login realizado com sucesso!");
-
-                // Redirecionar baseado no nível de acesso
-                if (json.nivelAcesso === 1 || json.nivelAcesso === 2) {
-                    // Admin - vai para o painel
-                    window.location = "../dashboard/painel.html";
-                } else {
-                    // Usuário comum - vai para o dashboard
-                    window.location = "/dashboard/mural.html";
-                }
+                window.location = "/dashboard/mural.html";
             });
 
         } else if (resposta.status === 403) {
@@ -77,6 +54,4 @@ function entrar() {
         console.log(erro);
         alert("Erro de conexão com o servidor.");
     });
-
-    return false;
 }

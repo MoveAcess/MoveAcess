@@ -23,7 +23,8 @@ function autenticar(req, res) {
                             idUsuario: resultadoAutenticar[0].idUsuario,
                             nome: resultadoAutenticar[0].nome,
                             email: resultadoAutenticar[0].email,
-                            nivelAcesso: resultadoAutenticar[0].nivelAcesso,
+                            senha: resultadoAutenticar[0].senha,
+                            nivel_acesso: resultadoAutenticar[0].nivel_acesso,
                         });
 
                     } else if (resultadoAutenticar.length == 0) {
@@ -77,7 +78,7 @@ function cadastrar(req, res) {
 }
 
 function visualizar(req, res){
-    var id = req.params.id; // Mudei de req.body para req.params
+    var id = req.body.idServer;
     
     usuarioModel.visualizar(id)
     .then(
@@ -97,7 +98,7 @@ function visualizar(req, res){
 }
 
 function deletar(req, res){
-    var id = req.params.id; // Mudei de req.body para req.params
+    var id = req.body.idServer;
 
     usuarioModel.deletar(id)
     .then(

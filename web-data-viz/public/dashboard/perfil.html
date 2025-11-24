@@ -9,10 +9,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/perfil.css">
+    <script src="../js/sessao.js"></script>
 
 </head>
 
-<body>
+<body onload="validarSessao()">
     <div class="dashboard">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
@@ -41,7 +42,7 @@
                 </a>
                 <a href="../index.html" class="nav-item" id="sair">
                     <i class="fa-solid fa-door-open"></i>
-                    <span>Sair</span>
+                    <span onclick="limparSessao()">Sair</span>
                 </a>
             </nav>
         </aside>
@@ -75,9 +76,10 @@
                         <span class="stat-change positive">
                             Alterar
                         </span>
-                        <span class="stat-change negative">
+                        <button class="btn-delete stat-change negative" data-delete-url="/items/123"
+                            onclick="deletar()">
                             Excluir
-                        </span>
+                        </button>
                     </div>
 
                     <div class="stat-card">
@@ -94,7 +96,7 @@
                     </div>
                 </div>
 
-                                <!-- NOVO: Container de GRID para os 4 cards (100% de largura no topo) -->
+                <!-- NOVO: Container de GRID para os 4 cards (100% de largura no topo) -->
                 <div class="stats-grid-wrapper">
                     <div class="stat-grid">
 
@@ -309,5 +311,32 @@
         </div>
     </div>
 </body>
+<script src="../js/deletar.js"></script>
+<script>
+    const navToggle = document.querySelector('.nav-toggle');
+    const sidebar = document.getElementById('sidebar');
+
+    if (navToggle && sidebar) {
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebar.classList.toggle('open');
+        });
+
+        // Close sidebar when clicking on nav items
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                sidebar.classList.remove('open');
+            });
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !navToggle.contains(e.target) && sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+            }
+        });
+    }
+
+</script>
 
 </html>
