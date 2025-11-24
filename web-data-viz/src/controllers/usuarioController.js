@@ -27,7 +27,6 @@ function autenticar(req, res) {
                             nivel_acesso: resultadoAutenticar[0].nivel_acesso,
                         });
 
-
                     } else if (resultadoAutenticar.length == 0) {
                         res.status(403).send("Email e/ou senha inválido(s)");
                     } else {
