@@ -24,6 +24,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
 
+
 app.use("/usuarios", usuarioRouter);
 app.use("/reclamacoes", reclamacoesRouter);
 console.log("usuarioRouter =", usuarioRouter);
