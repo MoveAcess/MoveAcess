@@ -22,6 +22,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
 
+
 app.use("/usuarios", usuarioRouter);
 
 app.listen(3000, '0.0.0.0', () => {
