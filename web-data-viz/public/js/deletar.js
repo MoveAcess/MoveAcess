@@ -26,3 +26,22 @@
 
         return false;
     }
+
+    function deletarUsuarioAdmin(id) {
+    if (!confirm("Deseja realmente excluir este usuário?")) return;
+
+    fetch("/usuarios/admin/deletar/" + id, {
+        method: "DELETE",
+        headers: {
+            "nivel-usuario": sessionStorage.NIVEL_USUARIO
+        }
+    })
+        .then(r => {
+            if (r.ok) {
+                alert("Usuário deletado com sucesso.");
+                location.reload();
+            } else {
+                alert("Erro ao deletar.");
+            }
+        });
+}
