@@ -20,10 +20,17 @@ router.delete("/admin/deletar/:id", validarAdmin, function (req, res) {
 
 router.get("/visualizar", function (req, res){
     usuarioController.visualizar(req,res);
+router.get("/visualizar/:id", function (req, res) {
+    usuarioController.visualizar(req, res);
 });
 
 router.delete("/deletar/:id", function(req, res){
     usuarioController.deletar(req, res);
 });
+
+router.put("/editar/:id", function(req, res){
+    usuarioController.editar(req, res);
+});
+
 
 module.exports = router;
