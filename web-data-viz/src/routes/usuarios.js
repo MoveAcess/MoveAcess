@@ -13,6 +13,13 @@ router.post("/autenticar", function (req, res) {
 });
 
 
+router.delete("/admin/deletar/:id", validarAdmin, function (req, res) {
+    usuarioController.deletar(req, res);
+});
+
+
+router.get("/visualizar", function (req, res){
+    usuarioController.visualizar(req,res);
 router.get("/visualizar/:id", function (req, res) {
     usuarioController.visualizar(req, res);
 });
