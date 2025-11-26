@@ -16,14 +16,18 @@ var app = express();
 
 var usuarioRouter = require("./src/routes/usuarios");
 
+var reclamacoes = require("./src/routes/reclamacoes");
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/reclamacoes", reclamacoes);
 
 app.use(cors());
 
 app.use("/usuarios", usuarioRouter);
 
-app.listen(3000, '0.0.0.0', () => {
-  console.log("Servidor rodando em http://0.0.0.0:3000");
-});;
+app.listen(PORTA_APP, HOST_APP, () => {
+  console.log(`Servidor rodando em http://${HOST_APP}:${PORTA_APP}`);
+});

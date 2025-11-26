@@ -7,6 +7,10 @@ function validarSessao() {
 
     var b_usuario = document.getElementById("b_usuario");
 
+    if (nivel == 1) {
+        document.getElementById("btnNovaReclamacao").remove();
+    }
+
     if (email != null && nome != null && id != null && nivel != null) {
             if (b_usuario) {   
                 b_usuario.innerHTML = id + " - " + nome + " - " + nivel;
@@ -37,4 +41,5 @@ function finalizarAguardar(texto) {
         divErrosLogin.innerHTML = texto;
     }
 }
+
 
