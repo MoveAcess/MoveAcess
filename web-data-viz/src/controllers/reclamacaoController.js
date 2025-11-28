@@ -1,7 +1,7 @@
 var reclamacaoModel = require("../models/reclamacaoModel");
+var comentarioModel = require("../models/comentarioModel"); // se existe, usado em buscarPorId
 
 function listar(req, res) {
-    // se vier ?usuarioId=... então listar só desse usuário
     var usuarioId = req.query.usuarioId;
 
     var promessa;
@@ -19,17 +19,58 @@ function listar(req, res) {
         });
 }
 
-function deletar(req, res) {
+function buscarPorId(req, res) {
     var id = req.params.id;
     if (!id) {
         res.status(400).send("Id da reclamação não informado");
         return;
     }
 
-    reclamacaoModel.deletar(id)
-        .then(resultado => res.json({ message: "Reclamação excluída" }))
+    reclamacaoModel.buscarPorId(id)
+        .then(async resultado => {
+            if (resultado.length === 0) {
+                res.status(404).send("Reclamação não encontrada");
+                return;
+            }
+
+            // se houver comentárioModel disponível, anexa comentários
+            if (comentarioModel && comentarioModel.listarComentariosDaReclamacao) {
+                try {
+                    var comentarios = await comentarioModel.listarComentariosDaReclamacao(id);
+                    resultado[0].comentarios = comentarios;
+                } catch (e) {
+                    console.log("Não foi possível carregar comentários:", e);
+                }
+            }
+
+            res.json(resultado[0]);
+        })
         .catch(erro => {
-            console.log("Erro ao excluir reclamação:", erro);
+            console.log("Erro ao buscar reclamação:", erro);
+            res.status(500).json(erro.sqlMessage || erro);
+        });
+}
+
+function criar(req, res) {
+    var reclamacao = {
+        statusReclamacao: req.body.statusReclamacao || "Pendente",
+        tipo: req.body.tipo,
+        descricao: req.body.descricao,
+        dataHoraCriacao: req.body.dataHoraCriacao,
+        fkVeiculo: req.body.fkVeiculo || null,
+        fkLocalEmbarque: req.body.fkLocalEmbarque || null,
+        fkUsuario: req.body.fkUsuario
+    };
+
+    if (!reclamacao.tipo || !reclamacao.descricao || !reclamacao.fkUsuario) {
+        res.status(400).send("Campos obrigatórios: tipo, descricao, fkUsuario");
+        return;
+    }
+
+    reclamacaoModel.inserir(reclamacao)
+        .then(resultado => res.status(201).json({ message: "Reclamação criada", id: resultado.insertId }))
+        .catch(erro => {
+            console.log("Erro ao criar reclamação:", erro);
             res.status(500).json(erro.sqlMessage || erro);
         });
 }
@@ -50,54 +91,32 @@ function editar(req, res) {
     }
 
     reclamacaoModel.editar(id, campos)
-        .then(resultado => res.json({ message: "Reclamação atualizada" }))
+        .then(() => res.json({ message: "Reclamação atualizada" }))
         .catch(erro => {
             console.log("Erro ao editar reclamação:", erro);
             res.status(500).json(erro.sqlMessage || erro);
         });
 }
 
-function criar(req, res) {
-    // criar nova reclamação (disponível para usuários comuns)
-    var reclamacao = {
-        statusReclamacao: req.body.statusReclamacao || "Pendente",
-        tipo: req.body.tipo,
-        descricao: req.body.descricao,
-        dataHoraCriacao: req.body.dataHoraCriacao, // opcional
-        fkVeiculo: req.body.fkVeiculo || null,
-        fkLocalEmbarque: req.body.fkLocalEmbarque || null,
-        fkUsuario: req.body.fkUsuario
-    };
-
-    if (!reclamacao.tipo || !reclamacao.descricao || !reclamacao.fkUsuario) {
-        res.status(400).send("Campos obrigatórios: tipo, descricao, fkUsuario");
+function deletar(req, res) {
+    var id = req.params.id;
+    if (!id) {
+        res.status(400).send("Id da reclamação não informado");
         return;
     }
 
-    reclamacaoModel.inserir(reclamacao)
-        .then(resultado => res.status(201).json({ message: "Reclamação criada", id: resultado.insertId }))
+    reclamacaoModel.deletar(id)
+        .then(() => res.json({ message: "Reclamação excluída" }))
         .catch(erro => {
-            console.log("Erro ao criar reclamação:", erro);
+            console.log("Erro ao excluir reclamação:", erro);
             res.status(500).json(erro.sqlMessage || erro);
         });
 }
 
 module.exports = {
     listar,
-    deletar,
-    editar,
+    buscarPorId,
     criar,
-    // exporto também buscarPorId caso precise
-    buscarPorId: function (req, res) {
-        var id = req.params.id;
-        reclamacaoModel.buscarPorId(id)
-            .then(resultado => {
-                if (resultado.length > 0) res.json(resultado[0]);
-                else res.status(404).send("Reclamação não encontrada");
-            })
-            .catch(erro => {
-                console.log("Erro ao buscar reclamação:", erro);
-                res.status(500).json(erro.sqlMessage || erro);
-            });
-    }
+    editar,
+    deletar
 };

@@ -41,9 +41,19 @@ function deletar(idUsuario) {
     return database.executar(instrucaoSql);
 }
 
+function editar(idUsuario, nome, email) {
+    console.log("ACESSEI O USUARIO MODEL - editar ->", idUsuario);
+    var instrucaoSql = `
+        UPDATE usuario SET nome = '${nome}', email = '${email}' WHERE idUsuario = ${idUsuario};
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     autenticar,
     cadastrar,
     visualizar,
-    deletar
+    deletar,
+    editar
 };

@@ -2,6 +2,17 @@ function entrar() {
     var email = document.getElementById("input_email").value;
     var senha = document.getElementById("input_senha").value;
 
+    // Validações
+    if (!email) {
+        alert("Por favor, preencha o email!");
+        return false;
+    }
+
+    if (!senha) {
+        alert("Por favor, preencha a senha!");
+        return false;
+    }
+
     fetch("/usuarios/autenticar", {
         method: "POST",
         headers: {
@@ -18,6 +29,9 @@ function entrar() {
             console.log(resposta);
 
             resposta.json().then(json => {
+                console.log("✅ Dados recebidos do backend:", json);
+
+                // Salvar no sessionStorage (backend retorna nivelAcesso)
                 sessionStorage.EMAIL_USUARIO = json.email;
                 sessionStorage.NOME_USUARIO = json.nome;
                 sessionStorage.ID_USUARIO = json.idUsuario;

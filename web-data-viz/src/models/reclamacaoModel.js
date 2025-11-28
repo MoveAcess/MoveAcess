@@ -47,7 +47,7 @@ function listarPorUsuario(idUsuario) {
     return database.executar(instrucao);
 }
 
-function buscarPorId(id) {
+function buscarPorId(idReclamacao) {
     var instrucao = `
         SELECT 
             r.idReclamacao,
@@ -58,15 +58,20 @@ function buscarPorId(id) {
             DATE_FORMAT(r.dataHoraResolucao, '%d/%m/%Y %H:%i') AS dataResolucao,
             r.fkVeiculo,
             r.fkLocalEmbarque,
-            r.fkUsuario
+            r.fkUsuario,
+            v.tipoVeiculo AS tipoVeiculo,
+            l.nome AS local,
+            u.nome AS nomeUsuario
         FROM reclamacao r
-        WHERE r.idReclamacao = ${id};
+        LEFT JOIN veiculo v ON r.fkVeiculo = v.idVeiculo
+        LEFT JOIN localEmbarque l ON r.fkLocalEmbarque = l.idLocal
+        LEFT JOIN usuario u ON r.fkUsuario = u.idUsuario
+        WHERE r.idReclamacao = ${idReclamacao};
     `;
     return database.executar(instrucao);
 }
 
 function inserir(reclamacao) {
-    // reclamacao: { statusReclamacao, tipo, descricao, dataHoraCriacao, fkVeiculo, fkLocalEmbarque, fkUsuario }
     var dataCriacao = reclamacao.dataHoraCriacao ? `'${reclamacao.dataHoraCriacao}'` : 'NOW()';
     var fkVeiculo = reclamacao.fkVeiculo ? reclamacao.fkVeiculo : 'NULL';
     var fkLocal = reclamacao.fkLocalEmbarque ? reclamacao.fkLocalEmbarque : 'NULL';
@@ -80,8 +85,7 @@ function inserir(reclamacao) {
     return database.executar(instrucao);
 }
 
-function editar(id, campos) {
-    // campos: { statusReclamacao, descricao, dataHoraResolucao, fkVeiculo, fkLocalEmbarque }
+function editar(idReclamacao, campos) {
     var updates = [];
 
     if (campos.statusReclamacao !== undefined) updates.push(`statusReclamacao = '${campos.statusReclamacao}'`);
@@ -97,21 +101,17 @@ function editar(id, campos) {
     var instrucao = `
         UPDATE reclamacao
         SET ${updates.join(", ")}
-        WHERE idReclamacao = ${id};
+        WHERE idReclamacao = ${idReclamacao};
     `;
     return database.executar(instrucao);
 }
 
-function deletar(id) {
-    var instrucao = `
-        DELETE FROM comentarios WHERE fkReclamacao = ${id};
-    `;
-    // primeiro deletar comentários relacionados (caso existam) e depois a reclamação
-    return database.executar(instrucao)
-        .then(() => {
-            var instr = `DELETE FROM reclamacao WHERE idReclamacao = ${id};`;
-            return database.executar(instr);
-        });
+function deletar(idReclamacao) {
+    var instrucaoComentarios = `DELETE FROM comentarios WHERE fkReclamacao = ${idReclamacao};`;
+    var instrucaoReclamacao = `DELETE FROM reclamacao WHERE idReclamacao = ${idReclamacao};`;
+
+    return database.executar(instrucaoComentarios)
+        .then(() => database.executar(instrucaoReclamacao));
 }
 
 module.exports = {
