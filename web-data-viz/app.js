@@ -18,12 +18,15 @@ var usuarioRouter = require("./src/routes/usuarios");
 var reclamacoesRouter = require("./src/routes/reclamacoes");
 
 
+var reclamacoes = require("./src/routes/reclamacoes");
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/reclamacoes", reclamacoes);
 
 app.use(cors());
-
 
 app.use("/usuarios", usuarioRouter);
 app.use("/reclamacoes", reclamacoesRouter);

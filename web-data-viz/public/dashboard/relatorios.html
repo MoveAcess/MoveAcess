@@ -117,7 +117,7 @@
                                 <i class="fas fa-search" style="color: #9ca3af;"></i>
                                 <input type="text" placeholder="Buscar por ID, tipo ou local...">
                             </div>
-                            <button class="btn-nova-reclamacao">
+                            <button class="btn-nova-reclamacao" id="btnNovaReclamacao">
                                 <i class="fas fa-plus"></i>
                                 Nova Reclamação
                             </button>
@@ -137,141 +137,7 @@
                                 <th>Descrição</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="reclamacao-id">REC-0187</div>
-                                </td>
-                                <td>
-                                    <div class="reclamacao-data">20/04/2024 08:30</div>
-                                </td>
-                                <td><span class="tipo-badge badge-elevador">Elevador Inoperante</span></td>
-                                <td>Estação Sé - Linha 1 Azul</td>
-                                <td><span class="prioridade-badge prioridade-alta">Alta</span></td>
-                                <td><span class="status-badge status-pendente">Pendente</span></td>
-                                <td>
-                                    <div class="reclamacao-descricao">Elevador principal fora de operação há 3 dias
-                                    </div>
-                                </td>
-
-                                <!-- NOVA COLUNA DE AÇÕES -->
-                                <td class="acoes">
-                                    <button class="btn-editar" onclick="editarReclamacao('REC-0187')">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                    <button class="btn-excluir" onclick="excluirReclamacao('REC-0187')">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-
-
-                            <tr>
-                                <td>
-                                    <div class="reclamacao-id">REC-0186</div>
-                                </td>
-                                <td>
-                                    <div class="reclamacao-data">20/04/2024 07:45</div>
-                                </td>
-                                <td><span class="tipo-badge badge-rampa">Rampa de Acesso</span></td>
-                                <td>Estação Paulista - Linha 4 Amarela</td>
-                                <td><span class="prioridade-badge prioridade-media">Média</span></td>
-                                <td><span class="status-badge status-andamento">Em Andamento</span></td>
-                                <td>
-                                    <div class="reclamacao-descricao">Rampa com inclinação irregular</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="reclamacao-id">REC-0185</div>
-                                </td>
-                                <td>
-                                    <div class="reclamacao-data">20/04/2024 06:20</div>
-                                </td>
-                                <td><span class="tipo-badge badge-onibus">Ônibus sem Acessibilidade</span></td>
-                                <td>Linha 875-10</td>
-                                <td><span class="prioridade-badge prioridade-baixa">Baixa</span></td>
-                                <td><span class="status-badge status-pendente">Pendente</span></td>
-                                <td>
-                                    <div class="reclamacao-descricao">Veículo sem rampa automática</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="reclamacao-id">REC-0184</div>
-                                </td>
-                                <td>
-                                    <div class="reclamacao-data">20/04/2024 05:15</div>
-                                </td>
-                                <td><span class="tipo-badge badge-piso">Piso Tátil Danificado</span></td>
-                                <td>Estação República - Linha 3 Vermelha</td>
-                                <td><span class="prioridade-badge prioridade-media">Média</span></td>
-                                <td><span class="status-badge status-andamento">Em Andamento</span></td>
-                                <td>
-                                    <div class="reclamacao-descricao">Piso tátil com várias peças soltas</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="reclamacao-id">REC-0183</div>
-                                </td>
-                                <td>
-                                    <div class="reclamacao-data">20/04/2024 04:30</div>
-                                </td>
-                                <td><span class="tipo-badge badge-elevador">Elevador Inoperante</span></td>
-                                <td>Estação Barra Funda - Linha 7 Rubi</td>
-                                <td><span class="prioridade-badge prioridade-alta">Alta</span></td>
-                                <td><span class="status-badge status-pendente">Pendente</span></td>
-                                <td>
-                                    <div class="reclamacao-descricao">Elevador com portas travadas</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="reclamacao-id">REC-0182</div>
-                                </td>
-                                <td>
-                                    <div class="reclamacao-data">20/04/2024 03:45</div>
-                                </td>
-                                <td><span class="tipo-badge badge-atendimento">Atendimento</span></td>
-                                <td>Terminal Pinheiros</td>
-                                <td><span class="prioridade-badge prioridade-baixa">Baixa</span></td>
-                                <td><span class="status-badge status-resolvido">Resolvido</span></td>
-                                <td>
-                                    <div class="reclamacao-descricao">Falta de funcionário capacitado</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="reclamacao-id">REC-0181</div>
-                                </td>
-                                <td>
-                                    <div class="reclamacao-data">20/04/2024 02:20</div>
-                                </td>
-                                <td><span class="tipo-badge badge-onibus">Ônibus sem Acessibilidade</span></td>
-                                <td>Linha 943P-10</td>
-                                <td><span class="prioridade-badge prioridade-alta">Alta</span></td>
-                                <td><span class="status-badge status-andamento">Em Andamento</span></td>
-                                <td>
-                                    <div class="reclamacao-descricao">Plataforma elevatória com defeito</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="reclamacao-id">REC-0180</div>
-                                </td>
-                                <td>
-                                    <div class="reclamacao-data">20/04/2024 01:15</div>
-                                </td>
-                                <td><span class="tipo-badge badge-sinalizacao">Sinalização</span></td>
-                                <td>Estação Luz - Linha 11 Coral</td>
-                                <td><span class="prioridade-badge prioridade-media">Média</span></td>
-                                <td><span class="status-badge status-pendente">Pendente</span></td>
-                                <td>
-                                    <div class="reclamacao-descricao">Placas de sinalização em Braille ilegíveis</div>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <tbody id="tabela_reclamacoes"></tbody>
                     </table>
 
                     <div class="pagination">
@@ -287,7 +153,7 @@
             </main>
         </div>
     </div>
-
+    <script src="../js/relatorios.js"></script>
     <script>
         const navToggle = document.querySelector('.nav-toggle');
         const sidebar = document.getElementById('sidebar');
