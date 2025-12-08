@@ -1,5 +1,6 @@
 var database = require("../database/config");
 
+
 function listar() {
     var instrucao = `
         SELECT 
@@ -47,7 +48,7 @@ function listarPorUsuario(idUsuario) {
     return database.executar(instrucao);
 }
 
-function buscarPorId(idReclamacao) {
+function buscarPorId(id) {
     var instrucao = `
         SELECT 
             r.idReclamacao,
@@ -58,20 +59,15 @@ function buscarPorId(idReclamacao) {
             DATE_FORMAT(r.dataHoraResolucao, '%d/%m/%Y %H:%i') AS dataResolucao,
             r.fkVeiculo,
             r.fkLocalEmbarque,
-            r.fkUsuario,
-            v.tipoVeiculo AS tipoVeiculo,
-            l.nome AS local,
-            u.nome AS nomeUsuario
+            r.fkUsuario
         FROM reclamacao r
-        LEFT JOIN veiculo v ON r.fkVeiculo = v.idVeiculo
-        LEFT JOIN localEmbarque l ON r.fkLocalEmbarque = l.idLocal
-        LEFT JOIN usuario u ON r.fkUsuario = u.idUsuario
-        WHERE r.idReclamacao = ${idReclamacao};
+        WHERE r.idReclamacao = ${id};
     `;
     return database.executar(instrucao);
 }
 
 function inserir(reclamacao) {
+    // reclamacao: { statusReclamacao, tipo, descricao, dataHoraCriacao, fkVeiculo, fkLocalEmbarque, fkUsuario }
     var dataCriacao = reclamacao.dataHoraCriacao ? `'${reclamacao.dataHoraCriacao}'` : 'NOW()';
     var fkVeiculo = reclamacao.fkVeiculo ? reclamacao.fkVeiculo : 'NULL';
     var fkLocal = reclamacao.fkLocalEmbarque ? reclamacao.fkLocalEmbarque : 'NULL';
@@ -85,7 +81,8 @@ function inserir(reclamacao) {
     return database.executar(instrucao);
 }
 
-function editar(idReclamacao, campos) {
+function editar(id, campos) {
+    // campos: { statusReclamacao, descricao, dataHoraResolucao, fkVeiculo, fkLocalEmbarque }
     var updates = [];
 
     if (campos.statusReclamacao !== undefined) updates.push(`statusReclamacao = '${campos.statusReclamacao}'`);
@@ -101,18 +98,83 @@ function editar(idReclamacao, campos) {
     var instrucao = `
         UPDATE reclamacao
         SET ${updates.join(", ")}
-        WHERE idReclamacao = ${idReclamacao};
+        WHERE idReclamacao = ${id};
     `;
     return database.executar(instrucao);
 }
 
-function deletar(idReclamacao) {
-    var instrucaoComentarios = `DELETE FROM comentarios WHERE fkReclamacao = ${idReclamacao};`;
-    var instrucaoReclamacao = `DELETE FROM reclamacao WHERE idReclamacao = ${idReclamacao};`;
-
-    return database.executar(instrucaoComentarios)
-        .then(() => database.executar(instrucaoReclamacao));
+function deletar(id) {
+    var instrucao = `
+        DELETE FROM comentarios WHERE fkReclamacao = ${id};
+    `;
+    // primeiro deletar comentários relacionados (caso existam) e depois a reclamação
+    return database.executar(instrucao)
+        .then(() => {
+            var instr = `DELETE FROM reclamacao WHERE idReclamacao = ${id};`;
+            return database.executar(instr);
+        });
 }
+
+function listarTodas() {
+    var instrucao = `
+        SELECT 
+            r.idReclamacao,
+            r.statusReclamacao,
+            r.tipo,
+            r.descricao,
+            r.dataHoraCriacao,
+            r.dataHoraResolucao,
+            r.fkLocalEmbarque,
+            u.email AS usuarioEmail,
+            u.nivel_acesso AS usuarioNivel
+        FROM reclamacao r
+        JOIN usuario u ON r.fkUsuario = u.idUsuario
+        ORDER BY r.dataHoraCriacao DESC;
+    `;
+    return database.executar(instrucao);
+}
+
+function listarPorId(idReclamacao) {
+    var instrucao = `
+        SELECT 
+            r.idReclamacao,
+            r.statusReclamacao,
+            r.tipo,
+            r.descricao,
+            r.dataHoraCriacao,
+            r.dataHoraResolucao,
+            r.fkLocalEmbarque,
+            u.email AS usuarioEmail,
+            u.nivel_acesso AS usuarioNivel
+        FROM reclamacao r
+        JOIN usuario u ON r.fkUsuario = u.idUsuario
+        WHERE r.idReclamacao = ?;
+    `;
+    return database.executar(instrucao, [idReclamacao]);
+}
+
+function atualizarStatus(idReclamacao, novoStatus) {
+    var instrucao;
+
+    if (novoStatus === 'Resolvido') {
+        instrucao = `
+            UPDATE reclamacao
+            SET statusReclamacao = '${novoStatus}',
+                dataHoraResolucao = NOW()
+            WHERE idReclamacao = ${idReclamacao};
+        `;
+    } else {
+        instrucao = `
+            UPDATE reclamacao
+            SET statusReclamacao = '${novoStatus}'
+            WHERE idReclamacao = ${idReclamacao};
+        `;
+    }
+
+    console.log("SQL a executar:", instrucao);
+    return database.executar(instrucao);
+}
+
 
 module.exports = {
     listar,
@@ -120,5 +182,8 @@ module.exports = {
     buscarPorId,
     inserir,
     editar,
-    deletar
+    deletar,
+    listarTodas,
+    listarPorId,
+    atualizarStatus
 };

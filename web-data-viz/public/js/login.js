@@ -38,7 +38,13 @@ function entrar() {
                 sessionStorage.NIVEL_USUARIO = json.nivel_acesso;
 
                 alert("Login realizado com sucesso!");
-                window.location = "/dashboard/mural.html";
+
+                if(sessionStorage.NIVEL_USUARIO == 2){
+                    window.location = "/dashboard/painel.html";    
+                } else {
+                    window.location = "/dashboard/perfil.html";
+                }
+
             });
 
         } else if (resposta.status === 403) {

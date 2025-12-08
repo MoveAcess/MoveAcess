@@ -24,11 +24,11 @@
             </div>
 
             <nav class="nav-menu">
-                <a href="perfil.html" class="nav-item active">
+                <a href="perfil.html" class="nav-item">
                     <i class="fa fa-user-circle-o"></i>
                     <span>Perfil</span>
                 </a>
-                <a href="mural.html" class="nav-item">
+                <a href="mural.html" class="nav-item active">
                     <i class="fas fa-chart-bar"></i>
                     <span>Dashboard</span>
                 </a>
@@ -141,6 +141,103 @@
     </div>
 
     <script>
+        // Função para carregar dados dinâmicos do dashboard
+        function carregarDadosDashboard() {
+            console.log("Carregando dados REAIS do dashboard...");
+            
+            fetch("/dashboard/obterMetricas")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro na requisição: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(dados => {
+                    console.log("Dados REAIS recebidos:", dados);
+                    atualizarCards(dados);
+                    atualizarGraficos(dados);
+                })
+                .catch(error => {
+                    console.error("ERRO: Não foi possível carregar dados REAIS.", error);
+                    alert("Erro ao carregar dados do dashboard. Verifique o console para mais detalhes.");
+                });
+        }
+
+        function atualizarCards(dados) {
+            console.log("Atualizando cards com:", dados);
+            
+            // Card 1: Ônibus Acessíveis
+            const card1 = document.querySelector('.stats-grid .stat-card:nth-child(1)');
+            if (card1) {
+                const valueElement = card1.querySelector('.stat-value');
+                const changeElement = card1.querySelector('.stat-change');
+                
+                if (valueElement && dados.frota_acessivel) {
+                    valueElement.textContent = dados.frota_acessivel;
+                }
+                if (changeElement && dados.variacao_frota) {
+                    changeElement.innerHTML = `<i class="fas fa-arrow-up"></i> ${dados.variacao_frota}`;
+                    changeElement.className = `stat-change ${dados.variacao_frota.startsWith('+') ? 'positive' : 'negative'}`;
+                }
+            }
+
+            // Card 2: Elevadores Inoperantes
+            const card2 = document.querySelector('.stats-grid .stat-card:nth-child(2)');
+            if (card2) {
+                const valueElement = card2.querySelector('.stat-value');
+                const changeElement = card2.querySelector('.stat-change');
+                
+                if (valueElement && dados.elevadores_inoperantes !== undefined) {
+                    valueElement.textContent = dados.elevadores_inoperantes;
+                }
+                if (changeElement && dados.variacao_elevadores) {
+                    changeElement.innerHTML = `<i class="fas fa-arrow-${dados.variacao_elevadores.startsWith('-') ? 'down' : 'up'}"></i> ${dados.variacao_elevadores}`;
+                    changeElement.className = `stat-change ${dados.variacao_elevadores.startsWith('-') ? 'positive' : 'negative'}`;
+                }
+            }
+
+            // Card 3: Reclamações Registradas
+            const card3 = document.querySelector('.stats-grid .stat-card:nth-child(3)');
+            if (card3) {
+                const valueElement = card3.querySelector('.stat-value');
+                if (valueElement && dados.reclamacoes_registradas !== undefined) {
+                    valueElement.textContent = dados.reclamacoes_registradas;
+                }
+            }
+
+            // Card 4: Frota Acessível
+            const card4 = document.querySelector('.stats-grid .stat-card:nth-child(4)');
+            if (card4) {
+                const valueElement = card4.querySelector('.stat-value');
+                const changeElement = card4.querySelector('.stat-change');
+                
+                if (valueElement && dados.veiculos_operando !== undefined) {
+                    valueElement.textContent = dados.veiculos_operando;
+                }
+                if (changeElement && dados.variacao_veiculos) {
+                    changeElement.innerHTML = `<i class="fas fa-arrow-up"></i> ${dados.variacao_veiculos}`;
+                    changeElement.className = `stat-change positive`;
+                }
+            }
+        }
+
+        function atualizarGraficos(dados) {
+            console.log("Atualizando gráficos com:", dados);
+            
+            // Atualizar gráfico de evolução se existir e tiver dados
+            if (window.evolutionChart && dados.evolucao_acessibilidade) {
+                window.evolutionChart.data.datasets[0].data = dados.evolucao_acessibilidade;
+                window.evolutionChart.update('none');
+            }
+
+            // Atualizar gráfico de distribuição se existir e tiver dados
+            if (window.distributionChart && dados.distribuicao_acessibilidade) {
+                window.distributionChart.data.datasets[0].data = dados.distribuicao_acessibilidade;
+                window.distributionChart.update('none');
+            }
+        }
+
+        // Menu hamburger
         const navToggle = document.querySelector('.nav-toggle');
         const sidebar = document.getElementById('sidebar');
 
@@ -150,14 +247,12 @@
                 sidebar.classList.toggle('open');
             });
 
-            // Close sidebar when clicking on nav items
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.addEventListener('click', () => {
                     sidebar.classList.remove('open');
                 });
             });
 
-            // Close sidebar when clicking outside
             document.addEventListener('click', (e) => {
                 if (!sidebar.contains(e.target) && !navToggle.contains(e.target) && sidebar.classList.contains('open')) {
                     sidebar.classList.remove('open');
@@ -165,85 +260,97 @@
             });
         }
 
-        // Evolution Chart
-        const ctx1 = document.getElementById('evolutionChart').getContext('2d');
-        const evolutionChart = new Chart(ctx1, {
-            type: 'bar',
-            data: {
-                labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
-                datasets: [{
-                    label: 'Percentual de Acessibilidade',
-                    data: [25, 28, 32, 37, 41, 45],
-                    backgroundColor: '#3b82f6',
-                    borderColor: '#2563eb',
-                    borderWidth: 1,
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100,
-                        ticks: {
-                            callback: function (value) {
-                                return value + '%';
+        // Gráficos - iniciam com dados estáticos, depois são atualizados com dados reais
+        document.addEventListener('DOMContentLoaded', function() {
+            // Evolution Chart
+            const ctx1 = document.getElementById('evolutionChart');
+            if (ctx1) {
+                window.evolutionChart = new Chart(ctx1.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
+                        datasets: [{
+                            label: 'Percentual de Acessibilidade',
+                            data: [25, 28, 32, 37, 41, 45],
+                            backgroundColor: '#3b82f6',
+                            borderColor: '#2563eb',
+                            borderWidth: 1,
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    callback: function (value) {
+                                        return value + '%';
+                                    }
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
                             }
                         }
+                    }
+                });
+            }
+
+            // Distribution Chart
+            const ctx2 = document.getElementById('distributionChart');
+            if (ctx2) {
+                window.distributionChart = new Chart(ctx2.getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: [
+                            'Totalmente Acessível',
+                            'Parcialmente Acessível',
+                            'Não Acessível',
+                            'Em Adaptação'
+                        ],
+                        datasets: [{
+                            data: [45, 30, 15, 10],
+                            backgroundColor: [
+                                '#10b981',
+                                '#f59e0b',
+                                '#ef4444',
+                                '#6366f1'
+                            ],
+                            borderWidth: 0
+                        }]
                     },
-                    x: {
-                        grid: {
-                            display: false
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    usePointStyle: true
+                                }
+                            }
                         }
                     }
-                }
+                });
             }
-        });
 
-        // Distribution Chart
-        const ctx2 = document.getElementById('distributionChart').getContext('2d');
-        const distributionChart = new Chart(ctx2, {
-            type: 'doughnut',
-            data: {
-                labels: [
-                    'Totalmente Acessível',
-                    'Parcialmente Acessível',
-                    'Não Acessível',
-                    'Em Adaptação'
-                ],
-                datasets: [{
-                    data: [45, 30, 15, 10],
-                    backgroundColor: [
-                        '#10b981',
-                        '#f59e0b',
-                        '#ef4444',
-                        '#6366f1'
-                    ],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            padding: 20,
-                            usePointStyle: true
-                        }
-                    }
-                }
-            }
+            // Carrega os dados REAIS do dashboard
+            carregarDadosDashboard();
+            
+            // Atualiza os dados a cada 1 minuto
+            setInterval(carregarDadosDashboard, 60000);
         });
-
     </script>
 </body>
 

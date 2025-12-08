@@ -1,47 +1,48 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Gerenciamento de Reclamações - MoveAcess</title>
+    <link rel="icon" href="../assets/imgs/logoPreta.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="../js/sessao.js"></script>
     <link rel="stylesheet" href="../css/painel.css">
 </head>
-<body>
+
+<body onload="validarSessao()">
     <!-- Sidebar -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/d820310b0bfc1899a5a765f79bac3ccfe87e7228-lMfRlkvKYvoQ9wnwvBJfLqSfBq1iLe.png" alt="MoveAcess" class="logo">
+            <div class="logo">
+                <img src="../assets/imgs/logo.svg" alt="" width="120px">
+            </div>
         </div>
-        
-        <nav class="sidebar-nav">
-            <a href="#" class="nav-item active">
-                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                </svg>
+
+        <nav class="nav-menu">
+            <a href="painel.html" class="nav-item active">
+                <i class="fa fa-user-circle-o"></i>
+                <span>Painel</span>
+            </a>
+            <a href="mural.html" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="#" class="nav-item">
-                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                </svg>
+            <a href="mapa.html" class="nav-item">
+                <i class="fa-regular fa-map"></i>
                 <span>Mapas</span>
             </a>
-            <a href="#" class="nav-item">
-                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
+            <a href="relatorios.html" class="nav-item">
+                <i class="fas fa-chart-line"></i>
                 <span>Relatórios</span>
             </a>
+            <a href="../index.html" class="nav-item" id="sair">
+                <i class="fa-solid fa-door-open"></i>
+                <span onclick="limparSessao()">Sair</span>
+            </a>
         </nav>
-
-        <div class="sidebar-footer">
-            <button class="nav-item">
-                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-                <span>Sair</span>
-            </button>
-        </div>
     </aside>
 
     <!-- Main Content -->
@@ -58,7 +59,8 @@
                 <div class="stat-card">
                     <div class="stat-icon-wrapper stat-icon-blue">
                         <svg class="stat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                     </div>
                     <p class="stat-label">Total de Reclamações</p>
@@ -69,7 +71,8 @@
                 <div class="stat-card">
                     <div class="stat-icon-wrapper stat-icon-red">
                         <svg class="stat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
                     <p class="stat-label">Pendentes</p>
@@ -80,7 +83,8 @@
                 <div class="stat-card">
                     <div class="stat-icon-wrapper stat-icon-yellow">
                         <svg class="stat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
                     <p class="stat-label">Em Andamento</p>
@@ -91,7 +95,8 @@
                 <div class="stat-card">
                     <div class="stat-icon-wrapper stat-icon-green">
                         <svg class="stat-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
                     <p class="stat-label">Resolvidas</p>
@@ -106,25 +111,29 @@
                     <div class="table-title-section">
                         <div class="table-title-wrapper">
                             <svg class="table-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                             <h2>Relatório de Reclamações</h2>
                         </div>
                     </div>
                     <p class="table-subtitle">Histórico completo de reclamações registradas</p>
-                    
+
                     <div class="search-filter-row">
                         <div class="search-wrapper">
                             <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
-                            <input type="text" id="search-input" placeholder="Buscar por ID, tipo ou local..." class="search-input">
+                            <input type="text" id="search-input" placeholder="Buscar por ID, tipo ou local..."
+                                class="search-input">
                         </div>
-                        
+
                         <div class="filter-wrapper">
                             <button class="filter-button" id="filter-button">
                                 <svg class="filter-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                                 </svg>
                                 <span id="filter-text">Todos</span>
                             </button>
@@ -166,4 +175,5 @@
 
     <script src="../js/painel.js"></script>
 </body>
+
 </html>

@@ -22,7 +22,7 @@
             </div>
 
             <nav class="nav-menu">
-                <a href="perfil.html" class="nav-item active">
+                <a href="perfil.html" class="nav-item">
                     <i class="fa fa-user-circle-o"></i>
                     <span>Perfil</span>
                 </a>
@@ -34,7 +34,7 @@
                     <i class="fa-regular fa-map"></i>
                     <span>Mapas</span>
                 </a>
-                <a href="relatorios.html" class="nav-item">
+                <a href="relatorios.html" class="nav-item active">
                     <i class="fas fa-chart-line"></i>
                     <span>Relatórios</span>
                 </a>
@@ -137,6 +137,7 @@
                                 <th>Descrição</th>
                             </tr>
                         </thead>
+
                         <tbody id="tabela_reclamacoes"></tbody>
                     </table>
 
@@ -153,7 +154,9 @@
             </main>
         </div>
     </div>
-    <script src="../js/relatorios.js"></script>
+
+     <script src="../js/relatorios.js"></script>
+     
     <script>
         const navToggle = document.querySelector('.nav-toggle');
         const sidebar = document.getElementById('sidebar');

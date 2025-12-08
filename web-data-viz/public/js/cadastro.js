@@ -2,6 +2,7 @@ function cadastrar() {
   var nome = document.getElementById("input_nome").value;
   var email = document.getElementById("input_email").value;
   var senha = document.getElementById("input_senha").value;
+  var nivel_acesso = 3;
 
   fetch("/usuarios/cadastrar", {
     method: "POST",
@@ -12,6 +13,7 @@ function cadastrar() {
       nomeServer: nome,
       emailServer: email,
       senhaServer: senha,
+      nivelAcessoServer: nivel_acesso
     }),
   }).then(function (resposta) {
       console.log("resposta: ", resposta);

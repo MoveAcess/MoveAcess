@@ -1,3 +1,5 @@
+script-tabelas.sql
+
 create database moveacess;
 
 use moveacess;
@@ -6,8 +8,7 @@ create table veiculo (
 idVeiculo int primary key auto_increment,
 tipoTransporte varchar(45),
 tipoVeiculo varchar(45),
-statusAcessibilidade varchar(45),
-ano date
+statusAcessibilidade varchar(45)
 );
 
 create table localEmbarque (
@@ -15,8 +16,7 @@ idLocal int primary key auto_increment,
 nome varchar(45),
 municipio varchar(45),
 linha_frota varchar(45),
-endereco text,
-ano date
+endereco varchar(45)
 );
 
 create table registro_logs (
@@ -64,16 +64,9 @@ foreign key (fkUsuario) references usuario(idUsuario)
 
 select * from usuario;
 
-------------------- PERFIL DE ADMIN DO SITE -------------------
-INSERT INTO usuario (nome, nivel_acesso, email, senha) VALUES
-('Admin Moveacess', 1, 'moveacess@admin.com', 'admin123');
----------------------------------------------------------------
-
-
 INSERT INTO usuario (nivel_acesso, email, senha)
 VALUES 
-(3, 'bia@gmail.com', '1234');
-
+(1, 'bia@gmail.com', '1234');
 
 INSERT INTO veiculo (tipoTransporte, tipoVeiculo, statusAcessibilidade)
 VALUES
@@ -120,8 +113,6 @@ VALUES
 select * from reclamacao;
 select * from comentarios;
 
-ALTER TABLE usuario 
-ADD COLUMN nome VARCHAR(100) NOT NULL AFTER idUsuario;
 
 -- Atualizar o usuário existente com um nome
 UPDATE usuario 
@@ -148,6 +139,7 @@ VALUES ('Maria Santos', 3, 'maria@gmail.com', 'senha123');
 INSERT INTO usuario (nome, nivel_acesso, email, senha)
 VALUES ('João Oliveira', 3, 'joao@gmail.com', 'joao456');
 
+
 -- Verificar usuários criados
 SELECT * FROM usuario;
 
@@ -157,40 +149,78 @@ SELECT * FROM usuario;
 INSERT INTO comentarios (fkReclamacao, fkUsuario, comentario, dataHoraComentario)
 VALUES (1, 1, 'Reportei este problema há 3 dias. A situação está crítica para cadeirantes.', NOW());
 
--- Comentário do Carlos (ID 3 - Admin) na reclamação 1
+-- Comentário do Carlos (ID 2 - Admin) na reclamação 1
 INSERT INTO comentarios (fkReclamacao, fkUsuario, comentario, dataHoraComentario)
-VALUES (1, 3, 'Obrigado pelo relato. Já acionamos a equipe de manutenção para verificar o elevador.', NOW());
+VALUES (1, 2, 'Obrigado pelo relato. Já acionamos a equipe de manutenção para verificar o elevador.', NOW());
 
--- Comentário da Maria (ID 4) na reclamação 1
+-- Comentário da Maria (ID 3) na reclamação 1
 INSERT INTO comentarios (fkReclamacao, fkUsuario, comentario, dataHoraComentario)
-VALUES (1, 4, 'Também tive problemas no elevador ontem. É urgente a resolução!', NOW());
+VALUES (1, 3, 'Também tive problemas no elevador ontem. É urgente a resolução!', NOW());
 
--- Comentário do João (ID 5) na reclamação 1
+-- Comentário do João (ID 4) na reclamação 1
 INSERT INTO comentarios (fkReclamacao, fkUsuario, comentario, dataHoraComentario)
-VALUES (1, 5, 'Vi que colocaram uma placa de "Em Manutenção" hoje cedo. Esperamos que resolvam logo.', NOW());
+VALUES (1, 4, 'Vi que colocaram uma placa de "Em Manutenção" hoje cedo. Esperamos que resolvam logo.', NOW());
 
 -- Comentário do Admin Carlos atualizando na reclamação 1
 INSERT INTO comentarios (fkReclamacao, fkUsuario, comentario, dataHoraComentario)
-VALUES (1, 3, 'ATUALIZAÇÃO: Técnico chegou às 14h. Previsão de conclusão: 48h.', NOW());
+VALUES (1, 2, 'ATUALIZAÇÃO: Técnico chegou às 14h. Previsão de conclusão: 48h.', NOW());
 
 -- ==================== COMENTÁRIOS EM OUTRAS RECLAMAÇÕES ====================
 
 -- Comentários na reclamação 2 (Rampa de Acesso)
 INSERT INTO comentarios (fkReclamacao, fkUsuario, comentario, dataHoraComentario)
-VALUES (2, 4, 'A rampa está muito íngreme, dificulta muito o acesso.', NOW());
+VALUES (2, 3, 'A rampa está muito íngreme, dificulta muito o acesso.', NOW());
 
 INSERT INTO comentarios (fkReclamacao, fkUsuario, comentario, dataHoraComentario)
-VALUES (2, 3, 'Já enviamos a solicitação para adequação conforme norma ABNT NBR 9050.', NOW());
+VALUES (2, 2, 'Já enviamos a solicitação para adequação conforme norma ABNT NBR 9050.', NOW());
 
 -- Comentários na reclamação 3 (Ônibus sem Acessibilidade)
 INSERT INTO comentarios (fkReclamacao, fkUsuario, comentario, dataHoraComentario)
-VALUES (3, 5, 'Peguei este ônibus e realmente a rampa não funciona.', NOW());
+VALUES (3, 4, 'Peguei este ônibus e realmente a rampa não funciona.', NOW());
 
 INSERT INTO comentarios (fkReclamacao, fkUsuario, comentario, dataHoraComentario)
 VALUES (3, 1, 'Precisamos identificar o número do veículo para reportar à empresa.', NOW());
 
 -- Comentários na reclamação 4 (Piso Tátil)
 INSERT INTO comentarios (fkReclamacao, fkUsuario, comentario, dataHoraComentario)
-VALUES (4, 4, 'Várias peças soltas na área próxima à catraca. Risco de queda!', NOW());
+VALUES (4, 3, 'Várias peças soltas na área próxima à catraca. Risco de queda!', NOW());
 
-SELECT * FROM comentarios;
+-- Inserir estações na tabela localEmbarque
+INSERT INTO localEmbarque (nome, municipio, linha_frota, endereco) VALUES
+('Aeroporto - Guarulhos', 'Guarulhos', '13', 'Aeroporto Internacional'),
+('Água Branca', 'São Paulo', '7', 'Av. Santa Marina'),
+('Antonio Gianetti Neto', 'São Paulo', '11', 'Av. Antonio Gianetti Neto'),
+('Aracaré', 'São Paulo', '12', 'Rua Aracaré'),
+('Baltazar Fidélis', 'São Paulo', '7', 'Rua Baltazar Fidélis'),
+('Botujuru', 'São Paulo', '7', 'Estação Botujuru'),
+('Brás', 'São Paulo', '7 | 10 | 11 | 12', 'Praça Agente Cícero'),
+('Braz Cubas', 'Mogi das Cruzes', '11', 'Av. Braz Cubas'),
+('Caieiras', 'Caieiras', '7', 'Estação Caieiras'),
+('Campo Limpo Paulista', 'Campo Limpo Paulista', '7', 'Estação Campo Limpo'),
+('Vila Aurora', 'São Paulo', '7', 'Av. Vila Aurora');
+
+-- Inserir veículos na tabela veiculo
+INSERT INTO veiculo (tipoTransporte, tipoVeiculo, statusAcessibilidade) VALUES
+('Trem/Metrô', 'Linha 13', 'Totalmente Acessível'),
+('Trem/Metrô', 'Linha 13', 'Parcialmente Acessível'),
+('Trem/Metrô', 'Linha 7', 'Totalmente Acessível'),
+('Trem/Metrô', 'Linha 7', 'Parcialmente Acessível'),
+('Trem/Metrô', 'Linha 12', 'Totalmente Acessível'),
+('Trem/Metrô', 'Linha 12', 'Parcialmente Acessível'),
+('Trem/Metrô', 'Linha 12', 'Em Adaptação'),
+('Trem/Metrô', 'Linha 12 | 13', 'Totalmente Acessível'),
+('Trem/Metrô', 'Linha 12 | 13', 'Parcialmente Acessível'),
+('Trem/Metrô', 'Linha 12 | 13', 'Em Adaptação');
+
+-- Adicionar mais veículos para ter dados suficientes
+INSERT INTO veiculo (tipoTransporte, tipoVeiculo, statusAcessibilidade) VALUES
+('Ônibus', 'Ônibus Urbano', 'Acessível'),
+('Ônibus', 'Ônibus Urbano', 'Acessível'),
+('Ônibus', 'Ônibus Urbano', 'Acessível'),
+('Ônibus', 'Ônibus Urbano', 'Parcialmente acessível'),
+('Ônibus', 'Ônibus Urbano', 'Parcialmente acessível'),
+('Ônibus', 'Ônibus Urbano', 'Não acessível'),
+('Ônibus', 'Micro-Ônibus', 'Acessível'),
+('Ônibus', 'Micro-Ônibus', 'Parcialmente acessível'),
+('Metrô', 'Linha Azul', 'Acessível'),
+('Metrô', 'Linha Vermelha', 'Parcialmente acessível');

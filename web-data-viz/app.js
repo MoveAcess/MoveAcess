@@ -14,24 +14,29 @@ var HOST_APP = process.env.APP_HOST;
 
 var app = express();
 
-var usuarioRouter = require("./src/routes/usuarios");
+var reclamacaoUserRouter = require("./src/routes/reclamacaoUser"); // ← ADICIONAR
 var reclamacoesRouter = require("./src/routes/reclamacoes");
-
-
-var reclamacoes = require("./src/routes/reclamacoes");
+var dashboardRouter = require("./src/routes/dashboard");
+var usuarioRouter = require("./src/routes/usuarios");
 
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/reclamacoes", reclamacoes);
 
 app.use(cors());
 
+
 app.use("/usuarios", usuarioRouter);
 app.use("/reclamacoes", reclamacoesRouter);
-console.log("usuarioRouter =", usuarioRouter);
-console.log("reclamacoesRouter =", reclamacoesRouter);
+app.use("/dashboard", dashboardRouter);
+app.use("/reclamacaoUser", reclamacaoUserRouter); // ← ADICIONAR
+
+ console.log("usuarioRouter =", usuarioRouter);
+// console.log("reclamacoesRouter =", reclamacoesRouter);
+// console.log("dashboardRouter =", dashboardRouter);
+// console.log("Processo de ambiente:", ambiente_processo);
+console.log("reclamacaoUserRouter =", reclamacaoUserRouter);
 
 
 app.listen(PORTA_APP, function () {
